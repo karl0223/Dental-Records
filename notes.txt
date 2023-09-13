@@ -1,0 +1,11 @@
+# ----------------------------------------------------
+#install django on directory
+- pipenv install django
+
+# Run pipenv shell
+- pipenv shell
+
+# Start django project
+- django-admin startproject <appname> .
+
+# ----------------------------------------------------
