@@ -9,3 +9,10 @@
 - django-admin startproject <appname> .
 
 # ----------------------------------------------------
+
+# Python interpreter using pipenv
+- pipenv --venv
+- copy the directory to python interpreter (ctrl + shift + p)
+
+# ----------------------------------------------------
+
