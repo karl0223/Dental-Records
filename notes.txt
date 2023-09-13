@@ -15,4 +15,7 @@
 - copy the directory to python interpreter (ctrl + shift + p)
 
 # ----------------------------------------------------
+# Creating App file
+- python manage.py startapp <appname>
 
+# ----------------------------------------------------
