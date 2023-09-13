@@ -19,3 +19,7 @@
 - python manage.py startapp <appname>
 
 # ----------------------------------------------------
+# Create urls.py and views
+- create a view in views.py
+- create url pattern (check the playground urls.py)
+- add the playground urls in the urls of the main app -> (dentalclinic)
