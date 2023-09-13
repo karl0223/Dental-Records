@@ -31,3 +31,12 @@
 - render the html file
 
 # ----------------------------------------------------
+#Installing django debug toolbar
+- pipenv install django-debug-toolbar
+- add 'debug_toolbar' in settings
+- add the debug pattern in urls.py in main app
+- add the middleware
+- add the Internal IPS in the settings
+- It must be a proper html file for the debug tool to work
+
+# ----------------------------------------------------
