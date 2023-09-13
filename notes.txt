@@ -17,9 +17,17 @@
 # ----------------------------------------------------
 # Creating App file
 - python manage.py startapp <appname>
+- add the app in the main app settings  - IMPORTANT
 
 # ----------------------------------------------------
 # Create urls.py and views
 - create a view in views.py
 - create url pattern (check the playground urls.py)
 - add the playground urls in the urls of the main app -> (dentalclinic)
+
+# Creating templates
+- create a templates folder
+- create html file
+- render the html file
+
+# ----------------------------------------------------
