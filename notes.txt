@@ -40,3 +40,11 @@
 - It must be a proper html file for the debug tool to work
 
 # ----------------------------------------------------
+# Designing the Database models
+- python manage.py startapp <appname>  -- Create an app to store the models (Minimal coupling, high cohesion)
+- Choice Fields
+- Defining One-to-one Relationships 
+- Defining a One-to-many Relationship 
+- Defining Many-to-many Relationships 
+- Resolving Circular Relationships
+- Generic Relationships (contenttypes)
