@@ -86,8 +86,11 @@ WSGI_APPLICATION = 'dentalclinic.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dental',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': 'karl0223'
     }
 }
 

@@ -48,9 +48,9 @@ class Package(models.Model):
     PACKAGE_B = 'B'
     PACKAGE_C = 'C'
     PACKAGE_CHOICES = [
-        (PACKAGE_A, 'Standard')
-        (PACKAGE_B, 'Premium')
-        (PACKAGE_C, 'Delux')
+        (PACKAGE_A, 'Standard'),
+        (PACKAGE_B, 'Premium'),
+        (PACKAGE_C, 'Delux'),
     ]
     title = models.CharField(max_length=255)
     package_type = models.CharField(max_length=1, choices=PACKAGE_CHOICES, default=PACKAGE_A)
@@ -70,7 +70,7 @@ class DentalRecord(models.Model):
 
 class PaymentRecord(models.Model):
     patient = models.OneToOneField(Patient, on_delete=models.PROTECT, primary_key=True)
-    package = models.OneToOneField(Package, on_delete=models.PROTECT, primary_key=True)
+    package = models.ForeignKey(Package, on_delete=models.PROTECT)
     balance = models.DecimalField(max_digits=10, decimal_places=2)
     last_update = models.DateTimeField(auto_now=True)
 

@@ -48,3 +48,24 @@
 - Defining Many-to-many Relationships 
 - Resolving Circular Relationships
 - Generic Relationships (contenttypes)
+
+# -----------------------------------------------------
+# Install and connect Django and Mysql
+- pipenv install mysqlclient
+- Go to databases in settings
+- change values 
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dental',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD': 'karl0223'
+    }
+}
+
+- check if there's an error, and if not run a migration
+- python manage.py migrate
+
+# -----------------------------------------------------
