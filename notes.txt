@@ -108,3 +108,6 @@ DATABASES = {
 - search django database functions for more information
 
 # ------------------------------------------------------
+# Grouping Data
+- from django.db.models import Count
+- query_set = Customer.objects.annotate(orders_count=Count('field_name')) #e.g order
