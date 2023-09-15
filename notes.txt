@@ -98,5 +98,13 @@ DATABASES = {
 # ------------------------------------------------------
 # Annotate - create a new column with the result of query
 - from django.db.models import Value, F
-- query-set = Customer.objects.annotate(new_id=Value(True)) -- annotate can only accept expression objects. use Value() 
-- query-set = Customer.objects.annotate(new_id=F('id')) -- creating a new id column with the value of F('id')
+- query_set = Customer.objects.annotate(new_id=Value(True)) -- annotate can only accept expression objects. use Value() 
+- query_set = Customer.objects.annotate(new_id=F('id')) -- creating a new id column with the value of F('id')
+
+# ------------------------------------------------------
+# Calling Database Functions
+- from django.db.models import Func, F, Value
+- query_set = Customer.objects.annotate(full_name=Func(F('first_name'), Value(' '), F(''last_name), function='CONCAT'))
+- search django database functions for more information
+
+# ------------------------------------------------------
