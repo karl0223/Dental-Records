@@ -80,7 +80,7 @@ DATABASES = {
 - .filter(Q(unit_price__gt=10) | Q(unit_price__lt=20)) combine two queries
 
 # Referencing Fields using F Objects
-- from django.db.models import Fields
+- from django.db.models import F
 - .filter(F('unit_price'))
 - can filter different collection with lookups. (e.g. .filter('collection__id')) 
 
@@ -96,3 +96,7 @@ DATABASES = {
 - Product.objects.aggregates(count=Count('id'), min_price=Min('unit_price))
 
 # ------------------------------------------------------
+# Annotate - create a new column with the result of query
+- from django.db.models import Value, F
+- query-set = Customer.objects.annotate(new_id=Value(True)) -- annotate can only accept expression objects. use Value() 
+- query-set = Customer.objects.annotate(new_id=F('id')) -- creating a new id column with the value of F('id')
