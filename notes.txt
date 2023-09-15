@@ -89,3 +89,10 @@ DATABASES = {
 - select_related('collection_someField') -- only use if the field has one instance
 - prefetch_related('promotion') -- use if there's multiple instances
 - it can also be chained. Collection.objects.prefetch_related('').select_related('')
+
+# ------------------------------------------------------
+# Aggregates
+- from django.db.models.aggregates import Count, Max, Min, Avg, Sum
+- Product.objects.aggregates(count=Count('id'), min_price=Min('unit_price))
+
+# ------------------------------------------------------
