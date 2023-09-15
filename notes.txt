@@ -82,4 +82,10 @@ DATABASES = {
 # Referencing Fields using F Objects
 - from django.db.models import Fields
 - .filter(F('unit_price'))
-- can filter different collection with lookups. (e.g. .filter('collection__id'))  
+- can filter different collection with lookups. (e.g. .filter('collection__id')) 
+
+# ------------------------------------------------------
+# Selecting related objects/fields
+- select_related('collection_someField') -- only use if the field has one instance
+- prefetch_related('promotion') -- use if there's multiple instances
+- it can also be chained. Collection.objects.prefetch_related('').select_related('')
