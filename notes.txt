@@ -151,3 +151,13 @@ DATABASES = {
 - the kwargs will not be changed
 
 # ------------------------------------------------------
+# Updating Objects
+# Read the object first before updating to avoid data loss
+# Not reading the object first after updating will result empty data. e.g Updating only one field, the other field will be set to empty
+- collection = Collection.objects.get(pk=11)
+- collection.featured_product=None
+- collection.save()
+# If you encounter a performance problem when updating you can use the built in update manager
+- Collection.objects.filter(pk=11).update(featured_product=None)
+
+# ------------------------------------------------------
