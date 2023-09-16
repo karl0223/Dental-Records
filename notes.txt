@@ -161,3 +161,11 @@ DATABASES = {
 - Collection.objects.filter(pk=11).update(featured_product=None)
 
 # ------------------------------------------------------
+# Delete Objects
+# Deleting single object
+- collection = Collection(pk=11)
+- collection.delete()
+# Deleting Multiple objects
+- Collection.objects.filter(id__gt=5).delete()
+
+# ------------------------------------------------------
