@@ -119,3 +119,16 @@ DATABASES = {
 - query_set = Product.objects.annotate(discounted_price=discounted_price)
 - can be use to create a calculated column. e.g. discounted_price in the query_set
 
+# ------------------------------------------------------
+# Custom Manager
+- Used to overide the existing manager function
+- class TaggedItemManager(models.Manager):
+    def get_tags_for(self, obj_type, obj_id):
+        ...
+- add objects field in the original class model. -- objects = TaggedItemManager()
+- You can now use the custom manager -- TaggedItem.objects.get_tags_for(obj_type, obj_id)
+- check storefront 2 or 3 for more details
+
+# ------------------------------------------------------
+
+
