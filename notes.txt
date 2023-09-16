@@ -141,3 +141,13 @@ DATABASES = {
 - queryset = Product.objects.all()
 
 # ------------------------------------------------------
+# Creating Objects
+# Traditional Approach
+- collection.title = 'Hello'
+- collection.save()
+- recommended by mosh because the field will be renamed if the field in the class model changed
+# Shorthand
+- collection = Collection.objects.create(title="Hello")
+- the kwargs will not be changed
+
+# ------------------------------------------------------
