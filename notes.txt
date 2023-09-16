@@ -111,3 +111,11 @@ DATABASES = {
 # Grouping Data
 - from django.db.models import Count
 - query_set = Customer.objects.annotate(orders_count=Count('field_name')) #e.g order
+
+# ------------------------------------------------------
+# Expression Wrapper
+- from django.db.models import ExpressionWrapper, F
+- discounted_price = ExpressionWrapper(F('unit_price') * 0.8, output_field=DecimalField())
+- query_set = Product.objects.annotate(discounted_price=discounted_price)
+- can be use to create a calculated column. e.g. discounted_price in the query_set
+
