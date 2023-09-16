@@ -130,5 +130,14 @@ DATABASES = {
 - check storefront 2 or 3 for more details
 
 # ------------------------------------------------------
+# Query Set Caching
+- only happens when evaluate the entire query first
+- database optimization
+# Correct Implementation
+- queryset = Product.objects.all()
+- queryset[0]
+# Incorrect Implementation
+- queryset[0]
+- queryset = Product.objects.all()
 
-
+# ------------------------------------------------------
