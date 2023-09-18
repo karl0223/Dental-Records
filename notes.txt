@@ -182,4 +182,22 @@ DATABASES = {
     with transaction.atomic():
         ...
 
-    
+# ------------------------------------------------------
+# Executing Raw SQL queries
+# Using .raw()
+- queryset = Product.objects.raw('SELECT *from store_product')
+# Using Cursor
+# executing queries that dont map in the model object, bypassing the model layer
+- from django.db import connection
+# First Implementation
+- cursor = connection.cursor()
+- cursor.execute(query)
+- cursor.close()
+- wrap it with try and catch block
+# Second Implementation
+- with connection.cursor() as cursor:
+    cursor.execute(query)
+    # executing store procedures
+    cursor.callproc('get_customers', [1, 2, 'a'])
+
+# ------------------------------------------------------
