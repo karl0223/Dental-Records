@@ -259,6 +259,14 @@ DATABASES = {
     display_package.short_description = 'Package'
 
     display_package_price.short_description = 'Package Price'
-        
 
+# To sort auto calculate column e.g The column stock has indicator 'low' (string) but has value in the db (stock = 3 which is less than 10 so it will display low)
+- if stock < 10:
+    return low
+  return high
+- Use @admin.display(ordering='stock') as decorator
+- @admin.display(ordering='stock')
+   def something(self, variable):
+       ...
+        
 # ------------------------------------------------------
