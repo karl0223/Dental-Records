@@ -282,3 +282,13 @@ class AddressAdmin(admin.ModelAdmin):
     list_select_related = ['branch']
 
 # ------------------------------------------------------
+# Overiding the base query set
+- lesson 70 code with mosh django part 1
+- e.g creating a new column based on the count of products (product_count)
+- def get_queryset(self, request):
+     return super().get_queryset(request).annotate(product_count=Count('product'))
+
+# Use @admin.display(ordering='') to sort the column
+
+# ------------------------------------------------------
+
