@@ -5,6 +5,27 @@ from django.db import models
 class Branch(models.Model):
     name = models.CharField(max_length=255)
 
+class Package(models.Model):
+    PACKAGE_A = 'A'
+    PACKAGE_B = 'B'
+    PACKAGE_C = 'C'
+    PACKAGE_CHOICES = [
+        (PACKAGE_A, 'Standard'),
+        (PACKAGE_B, 'Premium'),
+        (PACKAGE_C, 'Delux'),
+    ]
+    title = models.CharField(max_length=255)
+    package_type = models.CharField(max_length=1, choices=PACKAGE_CHOICES, default=PACKAGE_A)
+    price= models.DecimalField(max_digits=10, decimal_places=2)
+
+    # Change the rendered package title in the admin
+    def __str__(self) -> str:
+        return self.title
+    
+    class Meta:
+        # Change the sort order by its title
+        ordering = ['title']
+
 class Patient(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -12,6 +33,7 @@ class Patient(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     registration_date = models.DateField(auto_now_add=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='patients')
 
 class Dentist(models.Model):
     GENERAL_DENTIST = 'GD'
@@ -36,28 +58,6 @@ class Dentist(models.Model):
     role = models.CharField(max_length=5, choices=DENTIST_ROLE_CHOICES, default=GENERAL_DENTIST)
     patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
 
-
-class Package(models.Model):
-    PACKAGE_A = 'A'
-    PACKAGE_B = 'B'
-    PACKAGE_C = 'C'
-    PACKAGE_CHOICES = [
-        (PACKAGE_A, 'Standard'),
-        (PACKAGE_B, 'Premium'),
-        (PACKAGE_C, 'Delux'),
-    ]
-    title = models.CharField(max_length=255)
-    package_type = models.CharField(max_length=1, choices=PACKAGE_CHOICES, default=PACKAGE_A)
-    price= models.DecimalField(max_digits=10, decimal_places=2)
-
-    # Change the rendered package title in the admin
-    def __str__(self) -> str:
-        return self.title
-    
-    class Meta:
-        # Change the sort order by its title
-        ordering = ['title']
-
 class Procedure(models.Model):
     subjective = models.TextField()
     objective = models.TextField()
@@ -71,10 +71,17 @@ class DentalRecord(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete=models.PROTECT)
 
 class PaymentRecord(models.Model):
-    patient = models.OneToOneField(Patient, on_delete=models.PROTECT, primary_key=True)
-    package = models.ForeignKey(Package, on_delete=models.PROTECT)
+    patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
+    payment_details = models.TextField(default="")
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     balance = models.DecimalField(max_digits=10, decimal_places=2)
     last_update = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Calculate the balance based on the amount and the package price
+        if self.patient.package:
+            self.balance = self.patient.package.price - self.amount
+        super().save(*args, **kwargs)
 
 class Address(models.Model):
     street = models.CharField(max_length=255)

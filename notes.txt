@@ -229,3 +229,36 @@ DATABASES = {
 - list_editable -- used to edit values. e.g price 
 - list_per_page -- simple pagination
 - search django model admin options for more information
+
+# ------------------------------------------------------
+# Make balance in payment record auto calculate
+# Check changes in models (patient, payment record etc)
+# In payment record model
+- def save(self, *args, **kwargs):
+        # Calculate the balance based on the amount and the package price
+        if self.package:
+            self.balance = self.package.price - self.amount
+        super().save(*args, **kwargs)
+- check admin payment record and payment record model
+
+# In admin payment record
+@admin.register(models.PaymentRecord)
+- class PaymentRecordAdmin(admin.ModelAdmin):
+    readonly_fields = ['balance']
+    list_display = ['patient', 'display_package', 'display_package_price','balance', 'payment_details', 'amount', 'last_update']
+    ordering = ['last_update']
+    list_per_page = 10
+
+    # make a new column with the function return value
+    def display_package(self, obj):
+        return obj.patient.package.title if obj.patient.package else None
+
+    def display_package_price(self, obj):
+        return obj.patient.package.price if obj.patient.package else None
+
+    display_package.short_description = 'Package'
+
+    display_package_price.short_description = 'Package Price'
+        
+
+# ------------------------------------------------------
