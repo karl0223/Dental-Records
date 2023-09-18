@@ -222,3 +222,10 @@ DATABASES = {
         ordering = ['title']
 
 # ------------------------------------------------------
+# Customizing the list page
+- use the admin register decorator
+- inherit the admin.ModelAdmin to the class
+- list_display -- list of columns to display
+- list_editable -- used to edit values. e.g price 
+- list_per_page -- simple pagination
+- search django model admin options for more information

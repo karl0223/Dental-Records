@@ -1,13 +1,9 @@
 from django.db import models
 
 # Create your models here.
-class Address(models.Model):
-    street = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    
+
 class Branch(models.Model):
     name = models.CharField(max_length=255)
-    address = models.OneToOneField(Address, on_delete=models.CASCADE, primary_key=True)
 
 class Patient(models.Model):
     first_name = models.CharField(max_length=255)
@@ -15,7 +11,6 @@ class Patient(models.Model):
     phone = models.CharField(max_length=255)
     birth_date = models.DateField(null=True, blank=True)
     registration_date = models.DateField(auto_now_add=True)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
 class Dentist(models.Model):
@@ -39,7 +34,6 @@ class Dentist(models.Model):
     last_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     role = models.CharField(max_length=5, choices=DENTIST_ROLE_CHOICES, default=GENERAL_DENTIST)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
 
 
@@ -81,6 +75,13 @@ class PaymentRecord(models.Model):
     package = models.ForeignKey(Package, on_delete=models.PROTECT)
     balance = models.DecimalField(max_digits=10, decimal_places=2)
     last_update = models.DateTimeField(auto_now=True)
+
+class Address(models.Model):
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
+    dentist = models.ForeignKey(Dentist, on_delete=models.CASCADE, null=True, blank=True)
 
 
 
