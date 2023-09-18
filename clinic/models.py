@@ -5,6 +5,9 @@ from django.db import models
 class Branch(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self) -> str:
+        return self.name
+
 class Package(models.Model):
     PACKAGE_A = 'A'
     PACKAGE_B = 'B'
@@ -24,7 +27,7 @@ class Package(models.Model):
     
     class Meta:
         # Change the sort order by its title
-        ordering = ['title']
+        ordering = ['title', 'package_type', 'price']
 
 class Patient(models.Model):
     first_name = models.CharField(max_length=255)
@@ -34,6 +37,9 @@ class Patient(models.Model):
     registration_date = models.DateField(auto_now_add=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='patients')
+
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
 
 class Dentist(models.Model):
     GENERAL_DENTIST = 'GD'
@@ -57,6 +63,9 @@ class Dentist(models.Model):
     phone = models.CharField(max_length=255)
     role = models.CharField(max_length=5, choices=DENTIST_ROLE_CHOICES, default=GENERAL_DENTIST)
     patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
+
+    def __str__(self) -> str:
+        return f'{self.first_name} {self.last_name}'
 
 class Procedure(models.Model):
     subjective = models.TextField()
