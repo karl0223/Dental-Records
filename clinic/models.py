@@ -62,7 +62,6 @@ class Dentist(models.Model):
     last_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     role = models.CharField(max_length=5, choices=DENTIST_ROLE_CHOICES, default=GENERAL_DENTIST)
-    patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
         return f'{self.first_name} {self.last_name}'
