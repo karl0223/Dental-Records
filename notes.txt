@@ -201,3 +201,12 @@ DATABASES = {
     cursor.callproc('get_customers', [1, 2, 'a'])
 
 # ------------------------------------------------------
+# Setting up Admin Site
+- run the server
+- python manage.py createsuperuser -- create admin USER
+- python manage,py changeoassword admin -- change password
+- route: localhost/admin
+# Go to main app -- dentalclinic > urls.py > modify the admin page by accessing the admin
+- admin.site.site_header = "Dental Clinic"
+
+# ------------------------------------------------------
