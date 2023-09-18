@@ -9,10 +9,24 @@ class PackageAdmin(admin.ModelAdmin):
 
 @admin.register(models.Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'phone', 'branch']
-    list_editable = ['branch']
+    list_display = ['first_name', 'last_name', 'phone', 'branch_name', 'package_type']
+    # list_editable = ['branch_name']
     ordering = ['first_name', 'last_name']
     list_per_page = 10
+    list_select_related = ['branch', 'package']
+
+    def branch_name(self, patient):
+        return patient.branch.name
+    
+    def package_type(self, patient):
+        return patient.package.title
+    
+@admin.register(models.Dentist)
+class DentistAdmin(admin.ModelAdmin):
+    list_display = ['first_name', 'last_name', 'phone', 'role']
+    ordering = ['first_name', 'last_name']
+    list_per_page = 10
+
 
 @admin.register(models.Branch)
 class BranchAdmin(admin.ModelAdmin):
@@ -22,9 +36,13 @@ class BranchAdmin(admin.ModelAdmin):
 
 @admin.register(models.Address)
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ['street', 'city']
+    list_display = ['branch', 'street', 'city']
     ordering = ['street', 'city']
     list_per_page = 10
+    list_select_related = ['branch']
+
+    def branch(self, address):
+        return address.branch.name
 
 @admin.register(models.PaymentRecord)
 class PaymentRecordAdmin(admin.ModelAdmin):
