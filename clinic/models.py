@@ -56,6 +56,14 @@ class Package(models.Model):
     package_type = models.CharField(max_length=1, choices=PACKAGE_CHOICES, default=PACKAGE_A)
     price= models.DecimalField(max_digits=10, decimal_places=2)
 
+    # Change the rendered package title in the admin
+    def __str__(self) -> str:
+        return self.title
+    
+    class Meta:
+        # Change the sort order by its title
+        ordering = ['title']
+
 class Procedure(models.Model):
     subjective = models.TextField()
     objective = models.TextField()

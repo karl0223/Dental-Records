@@ -210,3 +210,15 @@ DATABASES = {
 - admin.site.site_header = "Dental Clinic"
 
 # ------------------------------------------------------
+# Registering the Models
+- Go to the apps e.g clinic > admin
+- from . import models
+- admin.site.register(models.Package) -- Register the model
+- Change the title/fields of the packages using __str__ method
+- def __str__(self) -> str:
+        return self.title
+# Sort the data by its title
+- class Meta:
+        ordering = ['title']
+
+# ------------------------------------------------------
