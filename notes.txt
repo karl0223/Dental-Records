@@ -169,3 +169,17 @@ DATABASES = {
 - Collection.objects.filter(id__gt=5).delete()
 
 # ------------------------------------------------------
+# Transactions
+# If one changes fails, all changes will be rolled back
+- from djang.db import transaction
+# wrap the fuction with transaction decorator 
+- @transaction.atomic()
+    def something():
+    ...
+# use transaction as context manage to have more control
+- def something():
+    ...
+    with transaction.atomic():
+        ...
+
+    
