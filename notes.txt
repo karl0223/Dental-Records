@@ -347,3 +347,14 @@ class AddressAdmin(admin.ModelAdmin):
 - add the field name to the admin model -- Reference storefront CollectionAdmin search_fields
 - search_fields = ['title']
 - For more information search django model admin options
+
+# ------------------------------------------------------
+# Data Validation
+- search django validators for more information
+- set 'blank=True' to make the fields in the admin optional (it must be optional in the database to work)
+
+# Check storefront product model unit price validator for the implementation
+- from django.core.validators import MinValueValidator
+- using MinValueValidator to limit the min value to enter in the unit price
+
+# ------------------------------------------------------
