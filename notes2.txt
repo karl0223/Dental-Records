@@ -4,4 +4,17 @@
 - add 'rest_framework' in the INSTALLED_APPS
 
 # ------------------------------------------------------
+# Creating API views
+- create a urls.py file
+- In views create a function
+- register the route in urls.py
 
+- from rest_framework.decorators import api_view
+- from rest_framework.response import Response
+- @api_view()
+    def product_list(request):
+        return Response('ok')
+
+- Flow: create views then add it in urls.py (route)
+
+# ------------------------------------------------------

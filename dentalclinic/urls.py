@@ -21,5 +21,6 @@ import debug_toolbar #Import debug toolbar
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('playground/', include('playground.urls')), # /playground/
+    path('clinic/', include('clinic.urls')), # /clinic/
     path('__debug__/', include(debug_toolbar.urls))
 ]
