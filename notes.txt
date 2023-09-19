@@ -352,9 +352,33 @@ class AddressAdmin(admin.ModelAdmin):
 # Data Validation
 - search django validators for more information
 - set 'blank=True' to make the fields in the admin optional (it must be optional in the database to work)
+- promotions = models.ManyToManyField(Promotion, blank=True)
 
 # Check storefront product model unit price validator for the implementation
 - from django.core.validators import MinValueValidator
 - using MinValueValidator to limit the min value to enter in the unit price
+
+- unit_price = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        validators=[MinValueValidator(1)])
+
+# ------------------------------------------------------
+# Edit Children using Inlines
+- Reference storefront OrderItem and OrderItemInline
+
+- class OrderItemInline(admin.TabularInline):
+    autocomplete_fields = ['product']
+    min_num = 1
+    max_num = 10
+    model = models.OrderItem
+    extra = 0
+
+
+@admin.register(models.Order)
+class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['customer']
+    inlines = [OrderItemInline]
+    list_display = ['id', 'placed_at', 'customer']
 
 # ------------------------------------------------------
