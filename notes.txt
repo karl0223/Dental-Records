@@ -382,3 +382,16 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'placed_at', 'customer']
 
 # ------------------------------------------------------
+# Using Generic Relations
+- Reference storefront Tag, TagInline, ProductAdmin
+- Check storefront for the implementation
+
+# ------------------------------------------------------
+# Extending Pluggable Apps -- Reference storefront (Tags and store)
+- used to remove/reduce the dependency of each app
+- python manage.py startapp store_custom -- In storefront3 it becomes 'core' folder. Check admin.py
+
+# Implementation Flow
+- import the ProductAdmin and TagInline
+- unregister and register the Product
+- add the store_custome/core in the INSTALLED_APPS
