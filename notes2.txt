@@ -18,3 +18,12 @@
 - Flow: create views then add it in urls.py (route)
 
 # ------------------------------------------------------
+# Creating Serializers
+- Converts a model instance to a dictionary
+- search django rest framework serializers for more information
+
+- create serializers.py file in the app
+- from rest_framework import serializers
+- it is like defining a model with fields (make sure it is the same fields with the model)
+
+# ------------------------------------------------------
