@@ -27,3 +27,10 @@
 - it is like defining a model with fields (make sure it is the same fields with the model)
 
 # ------------------------------------------------------
+# Serializing Objects
+
+# The default object result presentation is in String. Add COERCE_DECIMAL_TO_STRING to convert decimal value fields from string to decimal
+- In settings
+- REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False
+}
