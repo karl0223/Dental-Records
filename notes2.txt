@@ -1,0 +1,7 @@
+# ------------------------------------------------------
+# Installing Django Rest Framework
+- pipenv install djangorestframework
+- add 'rest_framework' in the INSTALLED_APPS
+
+# ------------------------------------------------------
+
