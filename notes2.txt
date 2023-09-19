@@ -34,3 +34,10 @@
 - REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False
 }
+
+# Get object return 404 if not found
+- from django.shortcuts import get_object_or_404 # used to get the object and return 404 if not found
+- set many to True to iterate over the queryset (many=True)
+- serializer = PackageSerializer(queryset, many=True)
+
+# ------------------------------------------------------
