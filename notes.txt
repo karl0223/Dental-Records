@@ -320,3 +320,17 @@ class AddressAdmin(admin.ModelAdmin):
 - check the PackageFilter for the implementation
 
 # ------------------------------------------------------
+# Creating a custom action
+- Check PackageAdmin for the implementation
+
+# Change the package price to 50k
+- actions = ['price_50k']
+- @admin.action(description='Change price to 50k')
+    def price_50k(self, request, queryset):
+        updated_price = queryset.update(price=50000)
+        self.message_user(request, f'{updated_price} package were successfully updated.')
+
+- import messages to have a custom message indicator 
+- from django.contrib import admin, messages
+- self.message_user(request, f'{updated_price} package were successfully updated.', messages.ERROR) -- Third parameter
+# ------------------------------------------------------

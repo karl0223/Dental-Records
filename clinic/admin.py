@@ -1,5 +1,5 @@
 from typing import Any
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models.query import QuerySet
 from . import models
 
@@ -20,10 +20,17 @@ class PackageFilter(admin.SimpleListFilter):
 
 @admin.register(models.Package)
 class PackageAdmin(admin.ModelAdmin):
+    actions = ['price_50k']
     list_display = ['title', 'package_type', 'price']
     list_per_page = 10 # simple pagination
     search_fields = ['title__istartswith']
     list_filter = [PackageFilter]
+
+    @admin.action(description='Change price to 50k')
+    def price_50k(self, request, queryset):
+        updated_price = queryset.update(price=50000)
+        self.message_user(request, f'{updated_price} package were successfully updated.', messages.ERROR)
+
 
 @admin.register(models.Patient)
 class PatientAdmin(admin.ModelAdmin):
