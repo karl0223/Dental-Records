@@ -334,3 +334,16 @@ class AddressAdmin(admin.ModelAdmin):
 - from django.contrib import admin, messages
 - self.message_user(request, f'{updated_price} package were successfully updated.', messages.ERROR) -- Third parameter
 # ------------------------------------------------------
+# Customizing the Forms -- Reference storefront ProductAdmin
+- fields, exclude, readonly_fields
+- prepopulate_fields = {
+    'slug': ['title']
+}
+
+# Autocomplete fields in Patient and PaymentRecord
+- autocomplete_fields = ['field_name'] -- To add auto complete fields instead of drop down list e.g collection, branch, etc
+
+# IF IT THROWS AN ERROR LIKE IT NEEDS A SEARCH FIELD
+- add the field name to the admin model -- Reference storefront CollectionAdmin search_fields
+- search_fields = ['title']
+- For more information search django model admin options

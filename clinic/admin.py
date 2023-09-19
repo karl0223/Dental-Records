@@ -39,6 +39,7 @@ class PatientAdmin(admin.ModelAdmin):
     ordering = ['first_name', 'last_name']
     list_per_page = 10
     list_select_related = ['branch', 'package']
+    search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
     def branch_name(self, patient):
         return patient.branch.name
@@ -71,6 +72,7 @@ class AddressAdmin(admin.ModelAdmin):
 
 @admin.register(models.PaymentRecord)
 class PaymentRecordAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['patient']
     readonly_fields = ['balance']
     list_display = ['patient', 'display_package', 'display_package_price','balance', 'payment_details', 'amount', 'last_update']
     ordering = ['last_update']
