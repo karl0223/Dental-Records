@@ -6,6 +6,7 @@ from . import models
 class PackageAdmin(admin.ModelAdmin):
     list_display = ['title', 'package_type', 'price']
     list_per_page = 10 # simple pagination
+    search_fields = ['title__istartswith']
 
 @admin.register(models.Patient)
 class PatientAdmin(admin.ModelAdmin):

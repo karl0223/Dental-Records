@@ -305,3 +305,5 @@ class AddressAdmin(admin.ModelAdmin):
     return format_html('<a href="{}">{}</a>', url, collection)
 
 # ------------------------------------------------------
+# Adding search in the list page
+- search_filed = ['field_name__istartswith'] # you can add lookup types after double underscore -- adding 'i' will make it case insensitive
