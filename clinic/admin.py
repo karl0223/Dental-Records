@@ -1,12 +1,29 @@
+from typing import Any
 from django.contrib import admin
+from django.db.models.query import QuerySet
 from . import models
 
 # Register your models here.
+
+class PackageFilter(admin.SimpleListFilter):
+    title = 'Package Price'
+    parameter_name = 'package_price'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('<50k', 'Mid')
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == '<50k':
+            return queryset.filter(price__lt=50000)
+
 @admin.register(models.Package)
 class PackageAdmin(admin.ModelAdmin):
     list_display = ['title', 'package_type', 'price']
     list_per_page = 10 # simple pagination
     search_fields = ['title__istartswith']
+    list_filter = [PackageFilter]
 
 @admin.register(models.Patient)
 class PatientAdmin(admin.ModelAdmin):
@@ -51,6 +68,7 @@ class PaymentRecordAdmin(admin.ModelAdmin):
     list_display = ['patient', 'display_package', 'display_package_price','balance', 'payment_details', 'amount', 'last_update']
     ordering = ['last_update']
     list_per_page = 10
+    list_filter = ['last_update']
 
 
     def display_package(self, obj):

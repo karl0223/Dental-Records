@@ -307,3 +307,16 @@ class AddressAdmin(admin.ModelAdmin):
 # ------------------------------------------------------
 # Adding search in the list page
 - search_filed = ['field_name__istartswith'] # you can add lookup types after double underscore -- adding 'i' will make it case insensitive
+
+# ------------------------------------------------------
+# Filtering the list page
+- list_filter = ['field_name']
+
+# Creating custom filter
+- create a class e.g class PackageFilter(admin.SimpleListFilter):
+- add a title and parameter field
+- It requires two methods to implement. First is the lookup, second is the queryset
+- lookups returns a tuple
+- check the PackageFilter for the implementation
+
+# ------------------------------------------------------
