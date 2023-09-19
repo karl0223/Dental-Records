@@ -79,16 +79,21 @@ class DentalRecord(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete=models.PROTECT)
 
 class PaymentRecord(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
+    patient = models.ForeignKey(Patient, on_delete=models.PROTECT, related_name='payment_records')
     payment_details = models.TextField(default="")
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    balance = models.DecimalField(max_digits=10, decimal_places=2)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     last_update = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # Calculate the balance based on the amount and the package price
+        # Calculate the balance based on the previous balance and the new payment amount
         if self.patient.package:
-            self.balance = self.patient.package.price - self.amount
+            previous_balance = self.patient.payment_records.last().balance if self.patient.payment_records.last() else None
+            if previous_balance == None:
+                self.balance = self.patient.package.price - self.amount
+            else:
+                self.balance = previous_balance - self.amount
+
         super().save(*args, **kwargs)
 
 class Address(models.Model):
