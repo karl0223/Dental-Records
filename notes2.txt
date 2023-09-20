@@ -56,3 +56,14 @@
 
 
 # ------------------------------------------------------
+
+# Serializing Relationships
+
+- Watch lesson 13 in Django Part 2
+- 4 ways to serialize Relationships
+- Primary key
+- String
+- Nested Object
+- Hyperlink (complicated)
+
+# ------------------------------------------------------
