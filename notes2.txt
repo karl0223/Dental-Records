@@ -67,3 +67,14 @@
 - Hyperlink (complicated)
 
 # ------------------------------------------------------
+
+# Model Serializer
+
+- better implementation of Serializer
+
+- class PackageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Package
+        fields = ['title', 'package_type', 'price', 'price_with_discount']
+
+# ------------------------------------------------------
