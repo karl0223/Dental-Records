@@ -41,3 +41,18 @@
 - serializer = PackageSerializer(queryset, many=True)
 
 # ------------------------------------------------------
+
+# Creating Custom Serializer Fields
+
+- create a new field -- Use serializers.SerializerMethodField(method_name='')
+    price_with_discount = serializers.SerializerMethodField(method_name='calculate_discount')
+
+- create a function add put it in the method name
+    def calculate_discount(self, package):
+        return package.price - (package.price * Decimal(.10))
+
+# To rename a field make the source of the field to its real field name in the model
+    package_price = serializers.DecimalField(max_digits=10, decimal_places=2, source='price') -- price -> package_price, source='price'
+
+
+# ------------------------------------------------------
