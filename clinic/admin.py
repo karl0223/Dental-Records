@@ -52,6 +52,7 @@ class DentistAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'phone', 'role']
     ordering = ['first_name', 'last_name']
     list_per_page = 10
+    search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
 
 @admin.register(models.Branch)
@@ -89,4 +90,19 @@ class PaymentRecordAdmin(admin.ModelAdmin):
     display_package.short_description = 'Package'
 
     display_package_price.short_description = 'Package Price'
+
+@admin.register(models.DentalRecord)
+class DentalRecordAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['patient', 'dentist', 'procedure']
+    list_display = ['patient', 'dentist', 'procedure', 'date']
+    ordering = ['date']
+    list_per_page = 10
+    list_filter = ['date']
+    list_select_related = ['patient', 'dentist', 'procedure']
+    
         
+@admin.register(models.Procedure)
+class ProcedureAdmin(admin.ModelAdmin):
+    list_display = ['name', 'code', 'duration_minutes', 'cost']
+    list_per_page = 10
+    search_fields = ['name__istartswith']
