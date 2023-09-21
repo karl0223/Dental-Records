@@ -34,7 +34,9 @@ class PackageAdmin(admin.ModelAdmin):
 
 @admin.register(models.Patient)
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'phone', 'branch_name', 'package_type']
+    readonly_fields = ['balance']
+    autocomplete_fields = ['branch', 'package']
+    list_display = ['first_name', 'last_name', 'phone', 'branch_name', 'package_type', 'balance']
     # list_editable = ['branch_name']
     ordering = ['first_name', 'last_name']
     list_per_page = 10
@@ -60,11 +62,13 @@ class BranchAdmin(admin.ModelAdmin):
     list_display = ['name']
     ordering = ['name']
     list_per_page = 10
+    search_fields = ['branch__istartswith']
 
 @admin.register(models.Address)
 class AddressAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['branch', 'patient', 'dentist']
     list_display = ['branch', 'street', 'city']
-    ordering = ['street', 'city']
+    ordering = ['branch']
     list_per_page = 10
     list_select_related = ['branch']
 
@@ -73,9 +77,9 @@ class AddressAdmin(admin.ModelAdmin):
 
 @admin.register(models.PaymentRecord)
 class PaymentRecordAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['patient']
+    autocomplete_fields = ['patient', 'dental_record']
     readonly_fields = ['balance']
-    list_display = ['patient', 'display_package', 'display_package_price','balance', 'payment_details', 'amount', 'last_update']
+    list_display = ['patient', 'display_package', 'display_package_price','balance', 'payment_details', 'amount', 'dental_record','last_update']
     ordering = ['last_update']
     list_per_page = 10
     list_filter = ['last_update']
@@ -94,12 +98,13 @@ class PaymentRecordAdmin(admin.ModelAdmin):
 @admin.register(models.DentalRecord)
 class DentalRecordAdmin(admin.ModelAdmin):
     autocomplete_fields = ['patient', 'dentist', 'procedure']
-    list_display = ['patient', 'dentist', 'procedure', 'date']
+    list_display = ['name','patient', 'dentist', 'procedure', 'date']
     ordering = ['date']
     list_per_page = 10
     list_filter = ['date']
     list_select_related = ['patient', 'dentist', 'procedure']
-    
+    search_fields = ['name__istartswith']
+
         
 @admin.register(models.Procedure)
 class ProcedureAdmin(admin.ModelAdmin):

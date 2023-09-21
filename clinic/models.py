@@ -40,15 +40,15 @@ class Patient(models.Model):
     package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='patients')
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
 
-    def calculate_initial_balance(self):
-        # Calculate the initial balance based on the assigned package and any outstanding balance
-        package_balance = self.package.price if self.package else 0
-        # outstanding_balance = self.payment_records.aggregate(models.Sum('amount'))['amount__sum'] or 0
-        return package_balance
+    def set_initial_balance(self):
+        # Set the initial balance based on the package price
+        if self.package:
+            self.balance = self.package.price
 
     def save(self, *args, **kwargs):
-        # Calculate and set the current balance when saving the patient
-        self.balance = self.calculate_initial_balance()
+        # Set the initial balance when saving the patient
+        if not self.balance:
+            self.set_initial_balance()
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
@@ -80,8 +80,8 @@ class Dentist(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 class Procedure(models.Model):
-    name = models.CharField(max_length=255, help_text="Name of the procedure", default='')
-    code = models.CharField(max_length=20, unique=True, help_text="Procedure code or identifier", default='')
+    name = models.CharField(max_length=255, help_text="Name of the procedure")
+    code = models.CharField(max_length=20, unique=True, help_text="Procedure code or identifier")
     description = models.TextField(blank=True, help_text="Description of the procedure")
     duration_minutes = models.PositiveIntegerField(help_text="Duration of the procedure in minutes", default=0)
     cost = models.DecimalField(max_digits=10, decimal_places=2, help_text="Cost of the procedure", default=0)
@@ -94,16 +94,22 @@ class Procedure(models.Model):
         return self.name
 
 class DentalRecord(models.Model):
-    date = models.DateTimeField(auto_now=True)
-    patient = models.OneToOneField(Patient, on_delete=models.PROTECT, primary_key=True)
+    name = models.CharField(max_length=255, blank=True)
+    date = models.DateField()
+    patient = models.ForeignKey(Patient, on_delete=models.PROTECT)
     dentist = models.ForeignKey(Dentist, on_delete=models.PROTECT)
     procedure = models.ForeignKey(Procedure, on_delete=models.PROTECT)
 
     def formatted_date(self):
         return self.date.strftime('%d-%m-%Y')  # Format as day-month-year
+    
+    def save(self, *args, **kwargs):
+        if not self.name:  # Only set the name if it's not already provided
+            self.name = f'{self.patient} - {self.formatted_date()}'
+        super(DentalRecord, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.patient} - {self.formatted_date()}'
+        return self.name
 
 class PaymentRecord(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.PROTECT, related_name='payment_records')
@@ -115,8 +121,12 @@ class PaymentRecord(models.Model):
 
     def save(self, *args, **kwargs):
         # Calculate the balance based on the previous balance and the new payment amount
-        previous_balance = self.patient.balance if hasattr(self.patient, 'balance') else 0
-        self.balance = previous_balance - self.amount
+        if self.patient.package:
+            previous_balance = self.patient.payment_records.last().balance if self.patient.payment_records.last() else 0
+            if previous_balance == 0:
+                self.balance = self.patient.package.price - self.amount
+            else:
+                self.balance = previous_balance - self.amount
 
         super().save(*args, **kwargs)
 
