@@ -5,11 +5,16 @@ from clinic.models import Package, Patient
 from .serializers import PackageSerializer, PatientSerializer
 
 # Create your views here.
-@api_view()
+@api_view(['GET', 'POST'])
 def package_list(request):
-    queryset = Package.objects.all()
-    serializer = PackageSerializer(queryset, many=True)
-    return Response(serializer.data)
+    if request.method == "GET":
+        queryset = Package.objects.all()
+        serializer = PackageSerializer(queryset, many=True)
+        return Response(serializer.data)
+    elif request.method == "POST":
+        serializer = PackageSerializer(data=request.data)
+        # serializer.validated_data  ---- Comment for now
+        return Response('ok')
 
 @api_view()
 def package_details(request, id):
@@ -17,7 +22,7 @@ def package_details(request, id):
     serializer = PackageSerializer(package)
     return Response(serializer.data)
 
-@api_view()
+@api_view(['GET', 'POST'])
 def patient_list(request):
     queryset = Patient.objects.all()
     serializer = PatientSerializer(queryset, many=True)
