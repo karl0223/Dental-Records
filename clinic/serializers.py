@@ -1,7 +1,7 @@
 from decimal import Decimal
 from rest_framework import serializers
 
-from clinic.models import Package
+from clinic.models import Package, Patient
 
 class PackageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +17,8 @@ class PackageSerializer(serializers.ModelSerializer):
 
     def calculate_discount(self, package):
         return package.price - (package.price * Decimal(.10))
+    
+class PatientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = ['first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package']
