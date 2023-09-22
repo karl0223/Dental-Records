@@ -109,3 +109,12 @@
 - Searching, filtering and pagination
 
 # ------------------------------------------------------
+
+# API Views
+
+- from rest_framework.views import APIView
+- converting function based view into Class based views
+- change the path in urls.py --- path('package/', views.PackageList.as_view())
+- check views.py for the changes
+
+# ------------------------------------------------------
