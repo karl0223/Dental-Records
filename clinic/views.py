@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from clinic.models import Package, Patient
 from .serializers import PackageSerializer, PatientSerializer
 
@@ -14,14 +15,21 @@ def package_list(request):
     elif request.method == "POST":
         serializer = PackageSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
         serializer.validated_data
-        return Response('ok')
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view()
+@api_view(['GET', 'PUT'])
 def package_details(request, id):
     package = get_object_or_404(Package, pk=id)
-    serializer = PackageSerializer(package)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        serializer = PackageSerializer(package)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = PackageSerializer(package, data=request.data) # Item - data
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET', 'POST'])
 def patient_list(request):
