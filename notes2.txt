@@ -99,3 +99,13 @@
 # If the object cannot be deleted, check the object if it is associated with other collections/Relationships
 
 # ------------------------------------------------------
+
+# ADVANCED API CONCEPTS
+
+- Class-based views
+- Generic views
+- Viewsets
+- Routers
+- Searching, filtering and pagination
+
+# ------------------------------------------------------
