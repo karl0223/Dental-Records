@@ -19,7 +19,7 @@ def package_list(request):
         serializer.validated_data
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def package_details(request, id):
     package = get_object_or_404(Package, pk=id)
     if request.method == 'GET':
@@ -30,6 +30,9 @@ def package_details(request, id):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'DELETE':
+        package.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'POST'])
 def patient_list(request):

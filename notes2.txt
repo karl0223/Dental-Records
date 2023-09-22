@@ -78,3 +78,13 @@
         fields = ['title', 'package_type', 'price', 'price_with_discount']
 
 # ------------------------------------------------------
+
+# Deserializing Data and Saving Objects
+
+ - Adding get, put, patch, delete in @api_view(['GET', 'PUT'])
+ - check if request.method is equal to the CRUD operations -- if request.method == "GET":
+ - serializer.is_valid(raise_exception=True) # Deserializing Data
+ - serializer.save() # Save the data
+ - return Response(serializer.data, status=status.HTTP_200_OK)
+
+# ------------------------------------------------------
