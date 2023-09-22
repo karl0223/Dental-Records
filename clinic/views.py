@@ -13,7 +13,8 @@ def package_list(request):
         return Response(serializer.data)
     elif request.method == "POST":
         serializer = PackageSerializer(data=request.data)
-        # serializer.validated_data  ---- Comment for now
+        serializer.is_valid(raise_exception=True)
+        serializer.validated_data
         return Response('ok')
 
 @api_view()
