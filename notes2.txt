@@ -88,3 +88,14 @@
  - return Response(serializer.data, status=status.HTTP_200_OK)
 
 # ------------------------------------------------------
+
+# DELETING OBJECTS
+
+- get the item e.g package = get_object_or_404(Package, pk=id)
+- if request.method == 'DELETE':
+- package.delete()
+- return Response(status.HTTP_204_NO_CONTENT)
+
+# If the object cannot be deleted, check the object if it is associated with other collections/Relationships
+
+# ------------------------------------------------------
