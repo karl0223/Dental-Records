@@ -118,3 +118,11 @@
 - check views.py for the changes
 
 # ------------------------------------------------------
+
+# Model Mixins
+
+- from rest_framework.mixins import ListModelMixin, CreateModelMixin
+- Improved class based views
+- check the mixins implementation for more information -- lesson 22 in django part 2
+
+# ------------------------------------------------------
