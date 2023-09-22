@@ -18,6 +18,12 @@ class PackageSerializer(serializers.ModelSerializer):
     def calculate_discount(self, package):
         return package.price - (package.price * Decimal(.10))
     
+    def create(self, validated_data):
+        package = Package(**validated_data)
+        package.other = 1
+        package.save()
+        return package
+    
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
