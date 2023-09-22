@@ -2,23 +2,18 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
+from rest_framework.generics import ListCreateAPIView
 from rest_framework import status
 from clinic.models import Package, Patient
 from .serializers import PackageSerializer, PatientSerializer
 
 
-class PackageList(APIView):
-    def get(self, request):
-        queryset = Package.objects.all()
-        serializer = PackageSerializer(queryset, many=True)
-        return Response(serializer.data)
+class PackageList(ListCreateAPIView):
+    queryset = Package.objects.all()
+    serializer_class = PackageSerializer
     
-    def post(self, request):
-        serializer = PackageSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED) 
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 class PackageDetail(APIView):
     def get(self, request, id):

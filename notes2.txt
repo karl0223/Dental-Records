@@ -125,4 +125,37 @@
 - Improved class based views
 - check the mixins implementation for more information -- lesson 22 in django part 2
 
+- didn't use the model mixins
+- uses generic views (better version)
+
+# ------------------------------------------------------
+
+# Generic Views
+
+- from rest_framework.generics import ListCreateAPIView
+- search search django rest_framework api guide generic views
+- Use Concrete View Classes
+- Concrete class combines 2 or more mixins
+
+# ListCreateAPIView
+
+# Basic Implementation
+
+- queryset = Package.objects.all()
+- serializer_class = PackageSerializer
+
+# overwrite the get_queryset and get_serializer_class, and get_serializer_context --- USE IF YOU HAVE A LOGIC NEEDED E.G IF CONDITIONS
+
+- def get_queryset(self):
+    return Package.objects.all()
+    
+- def get_serializer_class(self):
+    return PackageSerializer            #class -- remove the () - with parenthesis, it's a function
+
+- def get_serializer_context(self):
+        return {'request': self.request} - return the context object
+
+- You can now delete the 'get' and 'post' function because ListCreateAPIView has a built in list and create api views
+- much cleaner and much conscise compared to base APIView
+
 # ------------------------------------------------------
