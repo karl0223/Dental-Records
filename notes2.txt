@@ -158,4 +158,8 @@
 - You can now delete the 'get' and 'post' function because ListCreateAPIView has a built in list and create api views
 - much cleaner and much conscise compared to base APIView
 
+# Note: IF YOU HAVE A CUSTOM FIELD LIKE 'Products_Count' IN THE SERIALIZER MAKE IT 'read_ony=True' TO AVOID PROBLEM
+
+- products_count = serializer.IntegerField(read_ony=True)
+
 # ------------------------------------------------------
