@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import status
 from clinic.models import Package, Patient
 from .serializers import PackageSerializer, PatientSerializer
@@ -15,21 +15,12 @@ class PackageList(ListCreateAPIView):
     def get_serializer_context(self):
         return {'request': self.request}
 
-class PackageDetail(APIView):
-    def get(self, request, id):
-        package = get_object_or_404(Package, pk=id)
-        serializer = PackageSerializer(package)
-        return Response(serializer.data)
+class PackageDetail(RetrieveUpdateDestroyAPIView):
+    queryset = Package.objects.all()
+    serializer_class = PackageSerializer
     
-    def put(self, request, id):
-        package = get_object_or_404(Package, pk=id)
-        serializer = PackageSerializer(package, data=request.data) # Item - data
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    def delete(self, request, id):
-        package = get_object_or_404(Package, pk=id)
+    def delete(self, request, pk):
+        package = get_object_or_404(Package, pk=pk)
         package.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
        

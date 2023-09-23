@@ -163,3 +163,23 @@
 - products_count = serializer.IntegerField(read_ony=True)
 
 # ------------------------------------------------------
+
+# Customizing Generic Views
+
+- from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+- check the implementation of each class, if it can get, patch, put, delete
+
+- In urls.py, if you encounter an error URL keyword argument named 'pk'. Change the 'path('package/<int:pk>/', views.PackageDetail.as_view())' 
+    or add (lookup_field = 'id') in the class views IF <int:id> ---- path('package/<int:id>/', views.PackageDetail.as_view())
+- use 'pk' instead of 'id'
+
+
+# To customize the generic view
+
+- overwrite the existing function like the delete
+- def delete(self, request, id):
+        package = get_object_or_404(Package, pk=id)
+        package.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+# ------------------------------------------------------
