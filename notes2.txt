@@ -223,3 +223,12 @@ urlpatterns = [
 ]
 
 # ------------------------------------------------------
+
+# Building API
+
+- create model
+- create serializer
+- create view
+- register route
+
+# ------------------------------------------------------
