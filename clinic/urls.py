@@ -1,9 +1,13 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
+from rest_framework_nested import routers
 from . import views
 
-router = DefaultRouter()
-router.register('package', views.PackageViewSet) # endpoint - views
-router.register('patient', views.PatientViewSet)
+router = routers.DefaultRouter()
+router.register('packages', views.PackageViewSet) # endpoint - views
+router.register('patients', views.PatientViewSet)
+router.register('branches', views.BranchViewSet)
 
-urlpatterns = router.urls
+branches_router = routers.NestedDefaultRouter(router, 'branches', lookup='branch') # parent router - parent prefix - lookup parameters (branch_pk)
+branches_router.register('reviews', views.ReviewViewSet, basename='branch-reviews') # branch-reviews-list / branch-reviews-detail
+
+urlpatterns = router.urls + branches_router.urls

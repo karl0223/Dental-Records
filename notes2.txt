@@ -232,3 +232,23 @@ urlpatterns = [
 - register route
 
 # ------------------------------------------------------
+
+# Nested Routers
+
+- pipenv install drf-nested-routers
+
+- from rest_framework_nested import routers
+
+- router = routers.DefaultRouter()
+- router.register('branches', views.BranchViewSet)
+
+- branches_router = routers.NestedDefaultRouter(router, 'branches', lookup='branch') # parent router - parent prefix - lookup parameters (branch_pk)
+- The NestedDefaultRouter output will be ------- localhost:8000/clinic/branches/{branch_pk}/reviews/{pk}
+
+- branches_router.register('reviews', views.ReviewViewSet, basename='branch-reviews') # branch-reviews-list / branch-reviews-detail
+
+- urlpatterns = router.urls + branches_router.urls
+
+- check the serializer and views.py on how to manipulate the data by overwritting the 'create, get queryset and get_serializer_context'
+
+# ------------------------------------------------------

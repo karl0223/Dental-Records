@@ -1,7 +1,7 @@
 from decimal import Decimal
 from rest_framework import serializers
 
-from clinic.models import Package, Patient, Review
+from clinic.models import Branch, Package, Patient, Review
 
 class PackageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,7 +23,18 @@ class PatientSerializer(serializers.ModelSerializer):
         model = Patient
         fields = ['first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package']
 
+class BranchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Branch
+        fields = ['id', 'name']
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['id', 'branch', 'name', 'description', 'date']
+        fields = ['id', 'name', 'description', 'date']
+
+    # overwrite the create to automatically get the branch id  ---- no need to specify the branch id
+    # overwrite the def get_serializer_context(self): to get the branch_id in the self.context['branch_id]
+    def create(self, validated_data):
+        branch_id = self.context['branch_id']
+        return Review.objects.create(branch_id=branch_id, **validated_data)
