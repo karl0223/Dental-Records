@@ -2,52 +2,28 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import status
 from clinic.models import Package, Patient
 from .serializers import PackageSerializer, PatientSerializer
 
 
-class PackageList(ListCreateAPIView):
+class PackageViewSet(ModelViewSet):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
     
     def get_serializer_context(self):
         return {'request': self.request}
-
-class PackageDetail(RetrieveUpdateDestroyAPIView):
-    queryset = Package.objects.all()
-    serializer_class = PackageSerializer
     
     def delete(self, request, pk):
         package = get_object_or_404(Package, pk=pk)
         package.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-       
-class PatientList(APIView):
-    def get(self, request):
-        queryset = Patient.objects.all()
-        serializer = PatientSerializer(queryset, many=True)
-        return Response(serializer.data)
     
-    def post(self, request):
-        serializer = PatientSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-class PatientDetail(APIView):
-    def get(self, request, id):
-        patient = get_object_or_404(Patient, pk=id)
-        serializer = PatientSerializer(patient)
-        return Response(serializer.data)
-    
-    def put(self, request, id):
-        patient = get_object_or_404(Patient, pk=id)
-        serializer = PatientSerializer(patient, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class PatientViewSet(ModelViewSet):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
 
     def delete(self, request, id):
         patient = get_object_or_404(Patient, pk=id)

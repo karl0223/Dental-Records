@@ -183,3 +183,21 @@
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # ------------------------------------------------------
+
+# Model View Set -- Single class end point (CRUD endpoints)
+
+- from rest_framework.viewsets import ModelViewSet
+
+- has multiple APIView like get, retrieve, update and delete
+- used to combine the logic of multiple views
+- analyze the changes in views.py. The PackgeList and PackageDetail are combined using model view set
+
+# IF YOU DONT NEED WRITE OPERATIONS (PUT, PATCH, POST, DELETE) ONLY 'GET' METHOD
+
+- from rest_framework.viewsets import ReadOnlyModelViewSet
+- read only operations
+
+# NOTE: THE PACKAGE ENDPOINT IS BROKEN BECAUSE OF THE NEW IMPLEMENTATION OF MODELVIEWSET
+# NOTE: USING ROUTE TO CREATE THE ENDPOINTS OF THE VIEWSETS
+
+# ------------------------------------------------------
