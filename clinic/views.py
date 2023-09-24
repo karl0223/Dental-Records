@@ -16,16 +16,6 @@ class PackageViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'request': self.request}
     
-    def delete(self, request, pk):
-        package = get_object_or_404(Package, pk=pk)
-        package.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
 class PatientViewSet(ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
-
-    def delete(self, request, id):
-        patient = get_object_or_404(Patient, pk=id)
-        patient.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
