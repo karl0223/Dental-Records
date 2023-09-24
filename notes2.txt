@@ -203,3 +203,23 @@
 # NOTE: WATCH LESSON 26 PART 2. TIME STAMP: 5:20
 
 # ------------------------------------------------------
+
+# ROUTER
+
+- from rest_framework.routers import DefaultRouter   --------- WITH ROOT END POINT        # localhost:8000/clinic/
+- from rest_framework.routers import SimpleRouter    --------- WITHOUT ROOT END POINT
+
+router = DefaultRouter()
+router.register('package', views.PackageViewSet) # endpoint - views
+router.register('patient', views.PatientViewSet)
+
+urlpatterns = router.urls
+
+# IF YOU HAVE SPECIFIC URL PATTERNS
+
+urlpatterns = [
+    path('', include(router.urls)),
+    ...
+]
+
+# ------------------------------------------------------

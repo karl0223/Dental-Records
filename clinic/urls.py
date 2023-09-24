@@ -1,10 +1,9 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 from . import views
 
-urlpatterns = [
-    #/playground/hello/ - url
-    path('package/', views.PackageList.as_view()), # always add '/' at the end
-    path('package/<int:pk>/', views.PackageDetail.as_view()), # always add '/' at the end
-    path('patient/', views.PatientList.as_view()),
-    path('patient/<int:id>/', views.PatientDetail.as_view()),
-]
+router = DefaultRouter()
+router.register('package', views.PackageViewSet) # endpoint - views
+router.register('patient', views.PatientViewSet)
+
+urlpatterns = router.urls
