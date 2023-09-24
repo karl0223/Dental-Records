@@ -1,7 +1,7 @@
 from decimal import Decimal
 from rest_framework import serializers
 
-from clinic.models import Package, Patient
+from clinic.models import Package, Patient, Review
 
 class PackageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,3 +22,8 @@ class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = ['first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package']
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id', 'branch', 'name', 'description', 'date']

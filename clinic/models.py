@@ -8,6 +8,12 @@ class Branch(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    
+class Review(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='reviews')    
 
 class Package(models.Model):
     PACKAGE_A = 'A'

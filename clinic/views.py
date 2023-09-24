@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import status
-from clinic.models import Package, Patient
-from .serializers import PackageSerializer, PatientSerializer
+from clinic.models import Package, Patient, Review
+from .serializers import PackageSerializer, PatientSerializer, ReviewSerializer
 
 
 class PackageViewSet(ModelViewSet):
@@ -19,3 +19,7 @@ class PackageViewSet(ModelViewSet):
 class PatientViewSet(ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+
+class ReviewViewSet(ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
