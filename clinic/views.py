@@ -1,7 +1,7 @@
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from clinic.filter import PatientFilter
 from clinic.models import Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from .serializers import BranchSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
@@ -17,9 +17,10 @@ class PackageViewSet(ModelViewSet):
 class PatientViewSet(ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]    # Generic Filtering
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]    # Generic Filtering
     filterset_class = PatientFilter
     search_fields = ['first_name', 'last_name']
+    ordering_fields = ['balance', 'registration_date']
     
 class BranchViewSet(ModelViewSet):
     queryset = Branch.objects.all()

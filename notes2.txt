@@ -319,3 +319,15 @@ def get_queryset(self):
 - filter_backends = [SearchFilter]
 - search_fields = ['first_name', 'last_name']    # case insensitive
 
+# ------------------------------------------------------
+
+# Sorting
+
+- from rest_framework.filters import OrderingFilter
+- filter_backends = [OrderingFilter]
+- ordering_fields = ['balance', 'registration_date']
+
+# ------------------------------------------------------
+
+
+
