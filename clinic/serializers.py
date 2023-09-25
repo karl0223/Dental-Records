@@ -21,7 +21,7 @@ class PackageSerializer(serializers.ModelSerializer):
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ['first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance']
+        fields = ['id', 'first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance']
 
     current_balance = serializers.SerializerMethodField(method_name='get_balance')
 

@@ -17,8 +17,14 @@ class PackageViewSet(ModelViewSet):
         return {'request': self.request}
     
 class PatientViewSet(ModelViewSet):
-    queryset = Patient.objects.all()
     serializer_class = PatientSerializer
+
+    def get_queryset(self):
+        queryset = Patient.objects.all()
+        package_id = self.request.query_params.get('package_id')
+        if package_id is not None:
+            queryset = queryset.filter(package_id=package_id)
+        return queryset
     
 class BranchViewSet(ModelViewSet):
     queryset = Branch.objects.all()

@@ -4,7 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register('packages', views.PackageViewSet) # endpoint - views
-router.register('patients', views.PatientViewSet)
+router.register('patients', views.PatientViewSet, basename='patients')
 router.register('dentists', views.DentistViewSet)
 router.register('branches', views.BranchViewSet)
 router.register('procedures', views.ProcedureViewSet)

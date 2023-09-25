@@ -252,3 +252,27 @@ urlpatterns = [
 - check the serializer and views.py on how to manipulate the data by overwritting the 'create, get queryset and get_serializer_context'
 
 # ------------------------------------------------------
+
+# FILTERING
+
+- filter specific object
+- route + ?parameters
+- localhost:8000/clinic/package?collection_id=#
+
+- self.request.query_params.get('package_id')      # GET THE QUERY PARAMS IN THE REQUEST  -- ?package_id=8
+
+class PatientViewSet(ModelViewSet):
+    serializer_class = PatientSerializer
+
+    def get_queryset(self):
+        queryset = Patient.objects.all()
+        package = self.request.query_params.get('package')
+        if package is not None:
+            queryset = queryset.filter(package=package)
+        return queryset
+
+# ADD BASENAME TO THE ROUTE
+- router.register('patients', views.PatientViewSet, basename='patients')
+
+# ------------------------------------------------------
+
