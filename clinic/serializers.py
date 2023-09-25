@@ -55,9 +55,25 @@ class ProcedureSerializer(serializers.ModelSerializer):
         model = Procedure
         fields = ['id', 'name', 'code', 'description', 'duration_minutes', 'cost']
 
+class SimplePatientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = ['id', 'first_name', 'last_name']
 
+class SimpleDentistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dentist
+        fields = ['id', 'first_name', 'last_name']
+        
+class SimpleProcedureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Procedure
+        fields = ['id', 'name']
 
 class DentalRecordSerializer(serializers.ModelSerializer):
+    patient = SimplePatientSerializer()
+    dentist = SimpleDentistSerializer()
+    procedure = SimpleProcedureSerializer()
     class Meta:
         model = DentalRecord
         fields = ['id', 'patient', 'dentist', 'procedure', 'date']
