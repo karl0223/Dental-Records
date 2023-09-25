@@ -1,7 +1,7 @@
 from decimal import Decimal
 from rest_framework import serializers
 
-from clinic.models import Branch, Package, Patient, Review
+from clinic.models import Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 
 class PackageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,7 +21,12 @@ class PackageSerializer(serializers.ModelSerializer):
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ['first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package']
+        fields = ['first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance']
+
+    current_balance = serializers.SerializerMethodField(method_name='get_balance')
+
+    def get_balance(self, patient):
+        return patient.balance
 
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,3 +43,27 @@ class ReviewSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         branch_id = self.context['branch_id']
         return Review.objects.create(branch_id=branch_id, **validated_data)
+    
+
+class DentistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dentist
+        fields = ['id', 'first_name', 'last_name', 'phone', 'role']
+
+class ProcedureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Procedure
+        fields = ['id', 'name', 'code', 'description', 'duration_minutes', 'cost']
+
+
+
+class DentalRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DentalRecord
+        fields = ['id', 'patient', 'dentist', 'procedure', 'date']
+
+
+class PaymentRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentRecord
+        fields = ['id', 'patient', 'dental_record', 'payment_details', 'amount']

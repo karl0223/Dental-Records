@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import status
-from clinic.models import Branch, Package, Patient, Review
-from .serializers import BranchSerializer, PackageSerializer, PatientSerializer, ReviewSerializer
+from clinic.models import Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
+from .serializers import BranchSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
 
 
 class PackageViewSet(ModelViewSet):
@@ -19,7 +19,7 @@ class PackageViewSet(ModelViewSet):
 class PatientViewSet(ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
-
+    
 class BranchViewSet(ModelViewSet):
     queryset = Branch.objects.all()
     serializer_class = BranchSerializer
@@ -34,3 +34,23 @@ class ReviewViewSet(ModelViewSet):
     # context - to give additional information in the serializer
     def get_serializer_context(self):
         return { 'branch_id': self.kwargs['branch_pk']}
+    
+
+class DentistViewSet(ModelViewSet):
+    queryset = Dentist.objects.all()
+    serializer_class = DentistSerializer
+
+
+class ProcedureViewSet(ModelViewSet):
+    queryset = Procedure.objects.all()
+    serializer_class = ProcedureSerializer
+
+
+class DentalRecordViewSet(ModelViewSet):
+     queryset = DentalRecord.objects.all()
+     serializer_class = DentalRecordSerializer
+
+
+class PaymentRecordViewSet(ModelViewSet):
+    queryset = PaymentRecord.objects.all()
+    serializer_class = PaymentRecordSerializer
