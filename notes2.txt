@@ -276,3 +276,38 @@ class PatientViewSet(ModelViewSet):
 
 # ------------------------------------------------------
 
+# Generic Filtering
+
+- pipenv install django-filter
+
+- In INSTALLED_APPS add 'django-filters'
+
+- from django_filters.rest_framework import DjangoFilterBackend
+
+- filter_backends = [DjangoFilterBackend]
+- filterset_fields = ['package_id']       # filter the package_id --- same result with the get_queryset but better
+
+- using filter_backends and filterset_fields you can now remove the get_queryset and set again the 'queryset = Patient.objects.all()'
+
+def get_queryset(self):
+        queryset = Patient.objects.all()
+        package_id = self.request.query_params.get('package_id')
+        if package_id is not None:
+            queryset = queryset.filter(package_id=package_id)
+        return queryset
+
+- ADDED A FILTER BUTTON
+- Check the django-filter documentation for more information
+- you can create custom filter etc
+
+# Better implementation of filterset_fields
+
+- create a filter.py
+- from django_filters import FilterSet
+- check the filter.py for the implementation
+
+- create the 'PatientFilter' class
+- add 'filterset_class = PatientFilter' in the PatientViewSet
+
+# ------------------------------------------------------
+
