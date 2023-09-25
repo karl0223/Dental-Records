@@ -1,11 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.decorators import api_view
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework import status
+from rest_framework.filters import SearchFilter
 from clinic.filter import PatientFilter
 from clinic.models import Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from .serializers import BranchSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
@@ -21,8 +17,9 @@ class PackageViewSet(ModelViewSet):
 class PatientViewSet(ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
-    filter_backends = [DjangoFilterBackend]    # Generic Filtering
+    filter_backends = [DjangoFilterBackend, SearchFilter]    # Generic Filtering
     filterset_class = PatientFilter
+    search_fields = ['first_name', 'last_name']
     
 class BranchViewSet(ModelViewSet):
     queryset = Branch.objects.all()

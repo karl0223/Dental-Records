@@ -311,3 +311,11 @@ def get_queryset(self):
 
 # ------------------------------------------------------
 
+# Searching
+
+- for text based field
+
+- from rest_framework.filters import SearchFilter
+- filter_backends = [SearchFilter]
+- search_fields = ['first_name', 'last_name']    # case insensitive
+
