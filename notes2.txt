@@ -416,3 +416,16 @@ class CartSerializer(serializer.ModelSerializer):
     ...
 
 # ------------------------------------------------------
+
+# EAGER LOADING, PRE-LOADING RELATIONSHIPS
+
+- lesson 38, time stamp: 8:00 onwards
+
+- prefetch_related                      # Multiple items
+- select_related                        # Single item
+
+# In the View Set
+
+- queryset = Cart.objects.prefetch_related('items__product').all()         # In each item pre-load the product  -- items__product
+
+# ------------------------------------------------------
