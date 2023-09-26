@@ -441,3 +441,13 @@ class CartSerializer(serializer.ModelSerializer):
 - def validate_product_id(self, value):                         
 
 # ------------------------------------------------------
+
+# DJANGO AUTHENTICATION SYSTEM
+
+- CUSTOMIZE USER MODEL
+- EXTENDING USER MODEL
+- CREATING PROFILE
+- MANAGING GROUPS AND PERMISSIONS
+
+# ------------------------------------------------------
+
