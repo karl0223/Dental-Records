@@ -429,3 +429,15 @@ class CartSerializer(serializer.ModelSerializer):
 - queryset = Cart.objects.prefetch_related('items__product').all()         # In each item pre-load the product  -- items__product
 
 # ------------------------------------------------------
+
+# CUSTOM SERIALIZER API DATA
+
+- lesson 41
+- overwrite save method in serializer
+- check add cart item implementation
+
+# validate individual fields, follow specific convention    ----- def validate_'field name'(self, value)
+
+- def validate_product_id(self, value):                         
+
+# ------------------------------------------------------
