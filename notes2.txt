@@ -380,3 +380,21 @@ class DefaultPagination(PageNumberPagination):
 - add 'pagination_class = DefaultPagination' in the View Set
 
 # ------------------------------------------------------
+
+# IMPROVEMENT IN MODELS
+
+# GUIID
+
+- Globally Unique identifier
+
+- from uuid import uuid4
+
+class test(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
+
+# UNIQUE FIELDS
+
+class Meta:
+    unique_together = [['cart', 'product']]      # list of list
+
+# ------------------------------------------------------
