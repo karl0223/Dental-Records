@@ -398,3 +398,21 @@ class Meta:
     unique_together = [['cart', 'product']]      # list of list
 
 # ------------------------------------------------------
+
+# Create Custom View Set 
+
+- lesson 37 part 2
+
+- from rest_framework.mixins import CreateModelMixin
+- from rest_framework.viewsets import GenericViewSet
+
+class CartViewSet(CreateModelMixin, GenericViewSet):    # used to specify needed operations 'GET' etc
+    ...
+
+# Make UUIDField read only
+
+class CartSerializer(serializer.ModelSerializer):
+    id = serializer.UUIDField(read_only=True)
+    ...
+
+# ------------------------------------------------------
