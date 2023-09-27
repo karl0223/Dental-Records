@@ -451,3 +451,29 @@ class CartSerializer(serializer.ModelSerializer):
 
 # ------------------------------------------------------
 
+# CUSTOMIZING USER PROFILE
+
+- lesson 46
+- Two ways. Inheritance and Composition
+
+# Use Inheritance to extend user model
+
+- create a new model (AppModel) and extend the user model.               # class AppModel(User):
+
+# Create a Profile (Composition)
+
+- create a profile and add one to one link to the user model
+- the profile model is composed of user model
+
+# DIFFERENCE 
+
+- In using inheritance, the additional field will be added in the origital user table
+- In Profile, it will have a separate table with a foreign key to the user table
+
+# Use Case
+
+- Use inheritance for storing attributes related to authentication
+- Use Composition for storing non-auth related attributes           # birth_date, address, etc
+
+# ------------------------------------------------------
+
