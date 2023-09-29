@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.contrib import admin
 from django.db.models.aggregates import Sum
 
 # Create your models here.
@@ -37,14 +39,13 @@ class Package(models.Model):
         ordering = ['title', 'package_type', 'price']
 
 class Patient(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     birth_date = models.DateField(null=True, blank=True)
     registration_date = models.DateField(auto_now_add=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='patients')
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def set_initial_balance(self):
         # Set the initial balance based on the package price
@@ -57,8 +58,19 @@ class Patient(models.Model):
             self.set_initial_balance()
         super().save(*args, **kwargs)
 
+    @admin.display(ordering='user__first_name')
+    def first_name(self):
+        return self.user.first_name
+    
+    @admin.display(ordering='user__last_name')
+    def last_name(self):
+        return self.user.last_name
+
     def __str__(self) -> str:
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.user.first_name} {self.user.last_name}'
+    
+    class Meta:
+        ordering = ['user__first_name', 'user__last_name']
    
 class Dentist(models.Model):
     GENERAL_DENTIST = 'GD'
@@ -77,10 +89,15 @@ class Dentist(models.Model):
         (ORAL_SURGEON, 'Oral Surgeon'),
         (PROSTHODONTIST, 'Prothodontist'),
     ]
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     role = models.CharField(max_length=5, choices=DENTIST_ROLE_CHOICES, default=GENERAL_DENTIST)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def first_name(self):
+        return self.user.first_name
+    
+    def last_name(self):
+        return self.user.last_name
 
     def __str__(self) -> str:
         return f'{self.first_name} {self.last_name}'

@@ -35,12 +35,12 @@ class PackageAdmin(admin.ModelAdmin):
 @admin.register(models.Patient)
 class PatientAdmin(admin.ModelAdmin):
     readonly_fields = ['balance']
-    autocomplete_fields = ['branch', 'package']
+    autocomplete_fields = ['branch', 'package', 'user']
     list_display = ['first_name', 'last_name', 'phone', 'branch_name', 'package_type', 'balance']
     # list_editable = ['branch_name']
-    ordering = ['first_name', 'last_name']
+    ordering = ['user__first_name', 'user__last_name']
     list_per_page = 10
-    list_select_related = ['branch', 'package']
+    list_select_related = ['branch', 'package', 'user']
     search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
     def branch_name(self, patient):
@@ -52,8 +52,9 @@ class PatientAdmin(admin.ModelAdmin):
 @admin.register(models.Dentist)
 class DentistAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name', 'phone', 'role']
-    ordering = ['first_name', 'last_name']
+    ordering = ['user__first_name', 'user__last_name']
     list_per_page = 10
+    list_select_related = ['user']
     search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
 

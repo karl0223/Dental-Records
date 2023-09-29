@@ -525,3 +525,56 @@ class UserAdmin(BaseUserAdmin):
 
 # ------------------------------------------------------
 
+# CREATING USER PROFILE
+
+- from django.conf import settings
+
+# Add the user field in the model
+- user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+- remove duplicate fields, first, last name and email. It already exist in the modified user model
+
+# In clinic admin.py
+- set the ordering to user and loopup the first and last name
+
+- ordering = ['user__first_name', 'user__last_name']                    # lookup the user first and last name
+- list_select_related = ['user']
+
+# In models.py
+- It will return an error in the list display. To fix this, create a function to get the first_name and last_name from the user
+- list_display = ['first_name', 'last_name', 'phone', 'role']           # Cannot lookup the user field in the list_display, e.g user__first_name
+
+
+- def first_name(self):
+        return self.user.first_name
+    
+- def last_name(self):
+        return self.user.last_name
+
+
+# After setting up the user profile
+- create migrations then migrate
+
+- python mange.py makemigrations
+- python manage.py migrate
+
+- during makemigrations, you will need to specify a one time default value to the user
+- Press '1' and set it to '1'
+
+# TO SORT THE USER BY NAME IN THE ADMIN PANEL
+
+- In the models.py import
+- from django.contrib import admin
+
+- use the display decorator
+- @admin.display(ordering='user__first_name)
+- @admin.display(ordering='user__last_name)
+
+@admin.display(ordering='user__first_name')
+def first_name(self):
+    return self.user.first_name
+
+@admin.display(ordering='user__last_name')
+def last_name(self):
+    return self.user.last_name
+
+# ------------------------------------------------------
