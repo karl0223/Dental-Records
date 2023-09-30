@@ -1,7 +1,7 @@
 from decimal import Decimal
 from rest_framework import serializers
 
-from clinic.models import Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
+from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 
 class PackageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -83,3 +83,9 @@ class PaymentRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentRecord
         fields = ['id', 'patient', 'dental_record', 'payment_details', 'amount']
+
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Appointment
+        fields = ['id', 'patient', 'dentist', 'start_time', 'end_time']

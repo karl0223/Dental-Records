@@ -3,9 +3,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from clinic.filter import PatientFilter
-from clinic.models import Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
+from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from clinic.pagination import DefaultPagination
-from .serializers import BranchSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
+from .serializers import AppointmentSerializer, BranchSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
 
 
 class PackageViewSet(ModelViewSet):
@@ -58,3 +58,7 @@ class DentalRecordViewSet(ModelViewSet):
 class PaymentRecordViewSet(ModelViewSet):
     queryset = PaymentRecord.objects.all()
     serializer_class = PaymentRecordSerializer
+
+class AppointmentViewSet(ModelViewSet):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer

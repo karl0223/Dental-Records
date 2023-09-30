@@ -10,6 +10,7 @@ router.register('branches', views.BranchViewSet)
 router.register('procedures', views.ProcedureViewSet)
 router.register('dentalrecords', views.DentalRecordViewSet)
 router.register('paymentrecords', views.PaymentRecordViewSet)
+router.register('appointments', views.AppointmentViewSet)
 
 branches_router = routers.NestedDefaultRouter(router, 'branches', lookup='branch') # parent router - parent prefix - lookup parameters (branch_pk)
 branches_router.register('reviews', views.ReviewViewSet, basename='branch-reviews') # branch-reviews-list / branch-reviews-detail

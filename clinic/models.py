@@ -100,7 +100,7 @@ class Dentist(models.Model):
         return self.user.last_name
 
     def __str__(self) -> str:
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.user.first_name} {self.user.last_name}'
 
 class Procedure(models.Model):
     name = models.CharField(max_length=255, help_text="Name of the procedure")
@@ -159,6 +159,18 @@ class Address(models.Model):
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True)
     dentist = models.ForeignKey(Dentist, on_delete=models.CASCADE, null=True, blank=True)
+
+
+class Appointment(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    dentist = models.ForeignKey(Dentist, on_delete=models.CASCADE)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    class Meta:
+        permissions = [
+            ('cancel_appointment', 'Can cancel appointment')
+        ]
 
 
 

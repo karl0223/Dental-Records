@@ -51,6 +51,7 @@ class PatientAdmin(admin.ModelAdmin):
     
 @admin.register(models.Dentist)
 class DentistAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['user']
     list_display = ['first_name', 'last_name', 'phone', 'role']
     ordering = ['user__first_name', 'user__last_name']
     list_per_page = 10
@@ -112,3 +113,12 @@ class ProcedureAdmin(admin.ModelAdmin):
     list_display = ['name', 'code', 'duration_minutes', 'cost']
     list_per_page = 10
     search_fields = ['name__istartswith']
+
+
+@admin.register(models.Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['patient', 'dentist']
+    list_display = ['patient', 'dentist', 'start_time', 'end_time']
+    list_per_page = 10
+    list_filter = ['start_time', 'end_time']
+    list_select_related = ['patient', 'dentist']
