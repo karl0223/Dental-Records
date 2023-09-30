@@ -578,3 +578,23 @@ def last_name(self):
     return self.user.last_name
 
 # ------------------------------------------------------
+
+# GROUPS AND PERMISSIONS, CREATING CUSTOM PERMISSIONS
+
+- LESSON 49-50
+
+# TO CREATE A CUSTOM PERMISSIONS
+
+- go to models
+- permissions is a list of tuples
+
+class Meta:
+    permissions = [
+        ('cancel_appointment', 'Can Cancel Appointment')            # code - description
+    ]
+
+- create a migration and migrate
+
+# ------------------------------------------------------
+
+
