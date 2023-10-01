@@ -606,3 +606,39 @@ class Meta:
 
 # ------------------------------------------------------
 
+# ADDING AUTHENTICATION ENDPOINTS
+
+- lesson 53
+
+- Djoser 
+- implementation of django restful authentication
+- views for registration, login, etc
+
+# Installation
+- check documentation
+
+- pipenv install djoser
+- add djoser in the INSTALLED_APPS                              --- 'djoser'
+- add the djoser url in the root urls.py (dentalclinic)         ----- path('auth/', include('djoser.urls')),
+
+# Using JWT
+
+- pipenv install djangorestframework_simplejwt
+- add this in settings.py
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',                # NOTE: TUPLE ( , )
+    ),
+}
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),           - prefix with 'JWT'
+}
+
+- Add this path in root urls.py (dentalclinic)
+- path('auth/', include('djoser.urls.jwt')),
+
+- test the routes
+
+# ------------------------------------------------------
