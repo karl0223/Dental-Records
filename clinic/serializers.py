@@ -19,9 +19,10 @@ class PackageSerializer(serializers.ModelSerializer):
         return package.price - (package.price * Decimal(.10))
     
 class PatientSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField()
     class Meta:
         model = Patient
-        fields = ['id', 'first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance']
+        fields = ['id', 'user_id', 'first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance']
 
     current_balance = serializers.SerializerMethodField(method_name='get_balance')
 
@@ -48,7 +49,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 class DentistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dentist
-        fields = ['id', 'first_name', 'last_name', 'phone', 'role']
+        fields = ['id', 'user_id', 'first_name', 'last_name', 'phone', 'role']
 
 class ProcedureSerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,7 +64,7 @@ class SimplePatientSerializer(serializers.ModelSerializer):
 class SimpleDentistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dentist
-        fields = ['id', 'first_name', 'last_name']
+        fields = ['id', 'user_id', 'first_name', 'last_name']
         
 class SimpleProcedureSerializer(serializers.ModelSerializer):
     class Meta:

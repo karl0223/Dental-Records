@@ -1,6 +1,7 @@
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 from rest_framework.filters import SearchFilter, OrderingFilter
 from clinic.filter import PatientFilter
 from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
@@ -15,7 +16,7 @@ class PackageViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'request': self.request}
     
-class PatientViewSet(ModelViewSet):
+class PatientViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]    # Generic Filtering
@@ -40,7 +41,7 @@ class ReviewViewSet(ModelViewSet):
         return { 'branch_id': self.kwargs['branch_pk']}
     
 
-class DentistViewSet(ModelViewSet):
+class DentistViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = Dentist.objects.all()
     serializer_class = DentistSerializer
 

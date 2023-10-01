@@ -666,3 +666,12 @@ DJOSER = {
 }
 
 # ------------------------------------------------------
+
+# BUILDING THE PROFILE API
+
+# PATIENT AND DENTIST MODEL
+- added 'user_id' in the serializers
+- instead of using ModelViewSet, Use CreateModelMixin, RetrieveModelMixin, UpdateModelMixin and GenericViewSet to customize the available methods
+- In patient serializer, I added a hard coded temporary 'user_id' serializer to test creating a user profile
+
+# ------------------------------------------------------
