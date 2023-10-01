@@ -597,4 +597,12 @@ class Meta:
 
 # ------------------------------------------------------
 
+# SECURING API ENDPOINTS USING PERMISSIONS
+
+- Token based authentication (JWT)
+- Adding authentication endpoints
+- Registering, logging in, etc
+- Applying permissions
+
+# ------------------------------------------------------
 
