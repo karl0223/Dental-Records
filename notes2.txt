@@ -642,3 +642,27 @@ SIMPLE_JWT = {
 - test the routes
 
 # ------------------------------------------------------
+
+# REGISTERING USERS
+
+- lesson 54
+
+# Creat a custome serializer for the user to add additional information
+- create a serializer.py in core folder
+
+from djoser.serializers import UserCreateSerializer as BaseCreateSerializer
+
+class UserCreateSerializer(BaseCreateSerializer):
+    class Meta(BaseCreateSerializer.Meta):                                                      # Inherit the Meta class of BaseCreateSerializer
+        fields = ['id', 'username', 'password', 'email', 'first_name', 'last_name']             # Custom fields
+
+- add this in the settings.py
+- check documentation for the serializers fields. e.g 'user_create'
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer'          # path of the serializer in the core folder
+    }
+}
+
+# ------------------------------------------------------
