@@ -675,3 +675,29 @@ DJOSER = {
 - In patient serializer, I added a hard coded temporary 'user_id' serializer to test creating a user profile
 
 # ------------------------------------------------------
+
+# LOGGING IN
+- lesson 56
+
+- 127.0.0.1/8000/auth/jwt/create/               # endpoint to login and create token
+
+- refresh token is valid for 1 day
+- access token is valid for 5 mins
+
+# OVERWRITE THE DURATION OF THE TOKEN
+- go to settings and add the simple_jwt object
+
+- https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5)
+}
+
+# REFRESH TOKEN
+
+- 127.0.0.1/8000/auth/jwt/refresh/               # endpoint to refresh the access token using refresh token
+- it will generate a new access token
+
+# ------------------------------------------------------
