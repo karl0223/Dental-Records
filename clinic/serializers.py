@@ -19,7 +19,7 @@ class PackageSerializer(serializers.ModelSerializer):
         return package.price - (package.price * Decimal(.10))
     
 class PatientSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField()
+    user_id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Patient
         fields = ['id', 'user_id', 'first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance']

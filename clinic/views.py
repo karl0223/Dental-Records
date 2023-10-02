@@ -3,6 +3,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveModelMixin
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from clinic.filter import PatientFilter
 from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from clinic.pagination import DefaultPagination
@@ -24,6 +26,18 @@ class PatientViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gen
     pagination_class = DefaultPagination
     search_fields = ['first_name', 'last_name']
     ordering_fields = ['balance', 'registration_date']
+
+    @action(detail=False, methods=['GET', 'PUT'])
+    def me(self, request):
+        (patient, created) = Patient.objects.get_or_create(user_id=request.user.id)        # use get or create to not return an error, returns (tuple)
+        if request.method == 'GET':
+            serializer = PatientSerializer(patient)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            serializer = PatientSerializer(patient, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
     
 class BranchViewSet(ModelViewSet):
     queryset = Branch.objects.all()

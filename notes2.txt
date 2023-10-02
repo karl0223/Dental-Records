@@ -738,3 +738,33 @@ DJOSER = {
 }
 
 # ------------------------------------------------------
+
+# GETTING THE CURRENT USER'S PROFILE
+- lesson 60
+
+- from rest_framework.decorators import action
+
+# detail=False - available to list view '/patients/me'
+# detail=True - available in the detail view '/patients/1/me'       - specific user
+# methods = available methods
+# (patient, created) = Patient.objects.get_or_create(user_id=request.user.id)        # use get or create to not return an error, returns (tuples)
+
+@action(detail=False, methods=['GET', 'PUT'])
+    def me(self, request):
+        (patient, created) = Patient.objects.get_or_create(user_id=request.user.id)        # use get or create to not return an error, returns (tuples)
+        if request.method == 'GET':
+            serializer = PatientSerializer(patient)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            serializer = PatientSerializer(patient, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+
+# In Patient Serializer
+- set the user_id to read only
+
+- user_id = serializers.IntegerField(read_only=True)
+
+# ------------------------------------------------------
+
