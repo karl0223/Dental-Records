@@ -701,3 +701,40 @@ SIMPLE_JWT = {
 - it will generate a new access token
 
 # ------------------------------------------------------
+
+# GETTING THE CURRENT USER
+
+- lesson 59
+
+- 127.0.0.1/8000/auth/users/me
+- needs to be logged in
+- dl a chrome extension 'modheader' to test 
+
+# In ModHeader
+- Request header = Authorization
+- value = JWT {access_token}                    # prefix(simple_jwt settings) - token
+
+# ADD A FIELDS TO THE USER ENDPOINT 
+- create a serializer in core folder -> serializers.py
+- import the UserSerialzer from djoser.serializers
+- create a UserSerializer class and inherit the UserSerializer
+- register the serializer in the DJOSER settings
+
+# In core -> serializers.py
+
+from djoser.serializers import UserSerializer as BaseUserSerializer
+
+class UserSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        fields = ['id', 'username', 'first_name', 'last_name']
+
+# In settings
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer',
+        'current_user': 'core.serializers.UserSerializer'                   # added
+    }
+}
+
+# ------------------------------------------------------
