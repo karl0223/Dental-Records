@@ -5,7 +5,7 @@ from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveMo
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from clinic.filter import PatientFilter
 from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from clinic.pagination import DefaultPagination
@@ -21,7 +21,7 @@ class PackageViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'request': self.request}
     
-class PatientViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+class PatientViewSet(ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]    # Generic Filtering
@@ -29,14 +29,14 @@ class PatientViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gen
     pagination_class = DefaultPagination
     search_fields = ['first_name', 'last_name']
     ordering_fields = ['balance', 'registration_date']
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return [AllowAny()]
-        return [IsAuthenticated()]
+    # def get_permissions(self):
+    #     if self.request.method == 'GET':
+    #         return [AllowAny()]
+    #     return [IsAuthenticated()]
 
-    @action(detail=False, methods=['GET', 'PUT'])
+    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
         (patient, created) = Patient.objects.get_or_create(user_id=request.user.id)        # use get or create to not return an error, returns (tuple)
         if request.method == 'GET':

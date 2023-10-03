@@ -844,3 +844,17 @@ class PackageViewSet(ModelViewSet):
         return {'request': self.request}
 
 # ------------------------------------------------------
+
+# UPDATE ON THE PATIENT VIEW SET
+- Inherit the ModelViewSet 
+- changed the permission classes to 'IsAdminUser' from IsAuthenticated
+- commented the applied permission above in the patient view set
+- addded the permission_classes in the @action 
+@action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
+
+# BENEFITS
+- Only admin/staff can access all the patients methods -- 'GET', 'PUT', 'PATCH', 'DELETE'
+- Authenticated users can only access their own profile                                     # methods available in the @action decorator
+- Anonymous user will require to be authenticated before accessing the patient route
+
+# ------------------------------------------------------
