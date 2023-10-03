@@ -873,3 +873,51 @@ permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 - TIME STAMP: 2:40
 
 # ------------------------------------------------------
+
+# APPLYING CUSTOM MODEL PERMISSIONS
+
+- lesson 64
+
+# Note: 
+- Give explicit permission to the specific user
+- AVOID ad hoc (for this situation) permissions
+
+# BEST PRACTICE
+- Always add Groups, add permissions to groups, and add user to the groups      
+- easier to filter who has what kind of permissions
+
+# Models
+- In models.py
+- add permissions in the Meta class         # Note: permissions is a tuple
+- make migrations and migrate
+
+class Meta:
+    ordering = ['user__first_name', 'user__last_name']
+    permissions = [
+        ('view_history', 'Can view history')
+    ]
+
+# Views
+- In views.py
+- create an @action decorator of history
+- set the details to 'True' (details of specific user)
+- set he permission_classes to 'ViewPatientHistoryPermission'
+
+
+@action(detail=True, permission_classes=[ViewPatientHistoryPermission])
+def history(self, request, pk):
+    return Response('ok')
+
+# Permissions
+- In permissions.py
+- create the custom permission
+- always inherit the 'BasePermission' in permissions
+
+class ViewPatientHistoryPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.has_perm('clinic.view_history') 
+
+# In admin panel --- http://127.0.0.1:8000/admin/core/user/
+- add the can view history permission to the user
+
+# ------------------------------------------------------

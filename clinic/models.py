@@ -71,6 +71,9 @@ class Patient(models.Model):
     
     class Meta:
         ordering = ['user__first_name', 'user__last_name']
+        permissions = [
+            ('view_history', 'Can view history')
+        ]
    
 class Dentist(models.Model):
     GENERAL_DENTIST = 'GD'

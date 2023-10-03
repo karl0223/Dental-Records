@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from clinic.filter import PatientFilter
 from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from clinic.pagination import DefaultPagination
-from clinic.permissions import IsAdminOrReadOnly
+from clinic.permissions import IsAdminOrReadOnly, ViewPatientHistoryPermission
 from .serializers import AppointmentSerializer, BranchSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
 
 
@@ -35,6 +35,11 @@ class PatientViewSet(ModelViewSet):
     #     if self.request.method == 'GET':
     #         return [AllowAny()]
     #     return [IsAuthenticated()]
+
+    @action(detail=True, permission_classes=[ViewPatientHistoryPermission])
+    def history(self, request, pk):
+        return Response('ok')
+
 
     @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
