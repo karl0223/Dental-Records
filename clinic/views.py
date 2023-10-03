@@ -5,6 +5,7 @@ from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, RetrieveMo
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from clinic.filter import PatientFilter
 from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from clinic.pagination import DefaultPagination
@@ -26,6 +27,12 @@ class PatientViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gen
     pagination_class = DefaultPagination
     search_fields = ['first_name', 'last_name']
     ordering_fields = ['balance', 'registration_date']
+    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     @action(detail=False, methods=['GET', 'PUT'])
     def me(self, request):

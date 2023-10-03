@@ -768,3 +768,38 @@ DJOSER = {
 
 # ------------------------------------------------------
 
+# APPLYING PERMISSIONS
+
+- lesson 61
+- check the documentation for the implementation of permissions         # django rest framework api guide permissions
+
+# APPLY PERMISSION GLOBALLY
+- In settings.py
+- add the default permission classes
+
+REST_FRAMEWORK = {
+      'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ]
+}
+
+
+# To add specific permission to view sets
+
+- from rest_framework.permissions import IsAuthenticated, AllowAny
+- add permission classes on the class model
+
+permission_classes = [IsAuthenticated]          # return list of permissions
+
+
+# To classify what permission is available only to a specific user
+
+ def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]                 # return list of objects. Must have the parenthesis '()'
+        return [IsAuthenticated()]
+
+- Not authenticated users can only access the details of the patient            # localhost:8000/clinic/patients/1/
+- Authenticated users can get and update the patient details
+
+# ------------------------------------------------------
