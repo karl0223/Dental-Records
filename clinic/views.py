@@ -9,12 +9,14 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from clinic.filter import PatientFilter
 from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from clinic.pagination import DefaultPagination
+from clinic.permissions import IsAdminOrReadOnly
 from .serializers import AppointmentSerializer, BranchSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
 
 
 class PackageViewSet(ModelViewSet):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
+    permission_classes = [IsAdminOrReadOnly]
     
     def get_serializer_context(self):
         return {'request': self.request}
@@ -49,6 +51,7 @@ class PatientViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gen
 class BranchViewSet(ModelViewSet):
     queryset = Branch.objects.all()
     serializer_class = BranchSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
@@ -84,3 +87,4 @@ class PaymentRecordViewSet(ModelViewSet):
 class AppointmentViewSet(ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+
