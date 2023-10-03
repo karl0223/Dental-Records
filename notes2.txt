@@ -858,3 +858,18 @@ class PackageViewSet(ModelViewSet):
 - Anonymous user will require to be authenticated before accessing the patient route
 
 # ------------------------------------------------------
+
+# APPYLYING MODEL PERMISSIONS
+
+- lesson 63
+
+# USE ONLY IF REQUIRED OR NEEDED
+
+- Give user permissions based on their group permissions        # e.g Receptionist - can CRUD user, record, etc
+
+permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+# OVERWRITE THE PERMISSION CLASS
+- TIME STAMP: 2:40
+
+# ------------------------------------------------------
