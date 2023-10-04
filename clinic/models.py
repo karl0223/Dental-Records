@@ -43,7 +43,7 @@ class Patient(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     registration_date = models.DateField(auto_now_add=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
-    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='patients')
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name='patients', blank=True, null=True)
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

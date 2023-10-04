@@ -64,12 +64,13 @@ class SimplePatientSerializer(serializers.ModelSerializer):
 class SimpleDentistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dentist
-        fields = ['id', 'user_id', 'first_name', 'last_name']
+        fields = ['id', 'first_name', 'last_name']
         
 class SimpleProcedureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Procedure
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'code', 'description', 'duration_minutes', 'cost']
+    
 
 class DentalRecordSerializer(serializers.ModelSerializer):
     patient = SimplePatientSerializer()
@@ -79,14 +80,32 @@ class DentalRecordSerializer(serializers.ModelSerializer):
         model = DentalRecord
         fields = ['id', 'patient', 'dentist', 'procedure', 'date']
 
+class CreateDentalRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DentalRecord
+        fields = ['id', 'patient', 'dentist', 'procedure', 'date']
 
 class PaymentRecordSerializer(serializers.ModelSerializer):
+    dental_record = DentalRecordSerializer()
+    patient = SimplePatientSerializer()
+    class Meta:
+        model = PaymentRecord
+        fields = ['id', 'patient', 'dental_record', 'payment_details', 'amount']
+
+class CreatePaymentRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentRecord
         fields = ['id', 'patient', 'dental_record', 'payment_details', 'amount']
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
+    patient = SimplePatientSerializer()
+    dentist = SimpleDentistSerializer()
+    class Meta:
+        model = Appointment
+        fields = ['id', 'patient', 'dentist', 'start_time', 'end_time']
+
+class CreateAppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         fields = ['id', 'patient', 'dentist', 'start_time', 'end_time']

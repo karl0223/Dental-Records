@@ -10,7 +10,7 @@ from clinic.filter import PatientFilter
 from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
 from clinic.pagination import DefaultPagination
 from clinic.permissions import IsAdminOrReadOnly, ViewPatientHistoryPermission
-from .serializers import AppointmentSerializer, BranchSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
+from .serializers import AppointmentSerializer, BranchSerializer, CreateAppointmentSerializer, CreateDentalRecordSerializer, CreatePaymentRecordSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
 
 
 class PackageViewSet(ModelViewSet):
@@ -70,26 +70,81 @@ class ReviewViewSet(ModelViewSet):
         return { 'branch_id': self.kwargs['branch_pk']}
     
 
-class DentistViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+class DentistViewSet(ModelViewSet):
     queryset = Dentist.objects.all()
     serializer_class = DentistSerializer
+    permission_classes = [IsAdminUser]
+
+    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        (dentist, created) = Dentist.objects.get_or_create(user_id=request.user.id)
+        if request.method == 'GET':
+            serializer = DentistSerializer(dentist)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            serializer = DentistSerializer(dentist, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
 
 
 class ProcedureViewSet(ModelViewSet):
     queryset = Procedure.objects.all()
     serializer_class = ProcedureSerializer
+    permission_classes = [IsAdminUser]
 
 
 class DentalRecordViewSet(ModelViewSet):
      queryset = DentalRecord.objects.all()
-     serializer_class = DentalRecordSerializer
+     permission_classes = [IsAdminUser]
 
-
+     def get_serializer_class(self):
+         if self.request.method == 'POST':
+             return CreateDentalRecordSerializer
+         return DentalRecordSerializer
+     
+     @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
+     def me(self, request):
+        (patient, created) = Patient.objects.get_or_create(user_id=request.user.id)
+        if request.method == 'GET':
+            dental_record = DentalRecord.objects.filter(patient=patient)
+            serializer = DentalRecordSerializer(dental_record, many=True)
+            return Response(serializer.data)
+        
 class PaymentRecordViewSet(ModelViewSet):
     queryset = PaymentRecord.objects.all()
-    serializer_class = PaymentRecordSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return PaymentRecordSerializer
+        return CreatePaymentRecordSerializer
+
+    @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        (patient, created) = Patient.objects.get_or_create(user_id=request.user.id)
+        if request.method == 'GET':
+            payment_record = PaymentRecord.objects.filter(patient=patient)
+            serializer = PaymentRecordSerializer(payment_record, many=True)
+            return Response(serializer.data)
+
+        
 
 class AppointmentViewSet(ModelViewSet):
     queryset = Appointment.objects.all()
-    serializer_class = AppointmentSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return AppointmentSerializer
+        return CreateAppointmentSerializer
+    
+    @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        (patient, created) = Patient.objects.get_or_create(user_id=request.user.id)
+        appointment = Appointment.objects.filter(patient=patient)
+        if request.method == 'GET':
+            serializer = AppointmentSerializer(appointment, many=True)
+            return Response(serializer.data)
+
 
