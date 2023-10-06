@@ -38,3 +38,22 @@ if settings.DEBUG:
 - http://127.0.0.1:8000/media/dog.jpg
 
 # -------------------------------------------------
+
+# UPLOADING FILES OR IMAGES WITH MODEL
+
+# Install Dependencies
+- pipenv install pillow
+
+# CREATE A MODEL CLASS
+- create a model class than can receive files or Images
+- models.ImageField()         ---- Used for serving image file      # jpg, png, etc
+- models.FileField()          ---- Used for serving file field      # doc, pdf, etc
+- upload_to=''                ---- Path where the image/file will be stored
+
+# Note: The directory will be in the media folder (MEDIA_ROOT) and it will create a folder clinc/images
+
+class PatientProfileImage(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='profile_image')
+    image = models.ImageField(upload_to='clinic/images')
+
+# -------------------------------------------------

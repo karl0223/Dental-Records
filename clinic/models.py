@@ -74,6 +74,10 @@ class Patient(models.Model):
         permissions = [
             ('view_history', 'Can view history')
         ]
+
+class PatientProfileImage(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='profile_image')
+    image = models.ImageField(upload_to='clinic/images')
    
 class Dentist(models.Model):
     GENERAL_DENTIST = 'GD'
