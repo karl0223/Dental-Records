@@ -921,3 +921,10 @@ class ViewPatientHistoryPermission(permissions.BasePermission):
 - add the can view history permission to the user
 
 # ------------------------------------------------------
+
+# --------------------------- PART 3 START-------------------------------------------------
+
+# ------------------------------------------------------
+
+
+
