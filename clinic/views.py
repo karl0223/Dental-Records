@@ -22,7 +22,7 @@ class PackageViewSet(ModelViewSet):
         return {'request': self.request}
     
 class PatientViewSet(ModelViewSet):
-    queryset = Patient.objects.all()
+    queryset = Patient.objects.prefetch_related('profile_image', 'user').all()
     serializer_class = PatientSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]    # Generic Filtering
     filterset_class = PatientFilter
@@ -43,7 +43,7 @@ class PatientViewSet(ModelViewSet):
 
     @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
-        (patient, created) = Patient.objects.get_or_create(user_id=request.user.id)        # use get or create to not return an error, returns (tuple)
+        (patient, created) = Patient.objects.prefetch_related('profile_image', 'user').get_or_create(user_id=request.user.id)        # use get or create to not return an error, returns (tuple)
         if request.method == 'GET':
             serializer = PatientSerializer(patient)
             return Response(serializer.data)

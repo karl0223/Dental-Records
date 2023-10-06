@@ -108,3 +108,25 @@ patient_router.register('images', views.PatientProfileImageViewSet, basename='pa
 urlpatterns = router.urls + branches_router.urls + patient_router.urls
 
 # -------------------------------------------------
+
+# RENDERING THE UPLOADED IMAGE
+
+# SERIALIZERS
+- move the PatientProfileImageSerializer above the PatientSerializer
+- In the PatientSerializer add the 'profile_image' field. Set 'many' and 'read_only' to 'True'
+- In the Meta class fields, add the 'profile_image'
+
+profile_image = PatientProfileImageSerializer(many=True, read_only=True)
+fields = ['id', 'user_id', 'first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance', 'profile_image']
+
+
+# VIEWS
+- check the SQL queries if there's duplicate query
+- If there's duplicate query, Use prefetch_related to the queryset
+
+queryset = Patient.objects.prefetch_related('profile_image', 'user').all()
+
+- added 'prefetch_related' in the 'def me' function to load the 'profile_image' and 'user'
+(patient, created) = Patient.objects.prefetch_related('profile_image', 'user').get_or_create(user_id=request.user.id)
+
+# -------------------------------------------------

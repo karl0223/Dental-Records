@@ -18,11 +18,21 @@ class PackageSerializer(serializers.ModelSerializer):
     def calculate_discount(self, package):
         return package.price - (package.price * Decimal(.10))
     
+class PatientProfileImageSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        patient_id = self.context['patient_id']
+        return PatientProfileImage.objects.create(patient_id=patient_id, **validated_data)
+    class Meta:
+        model = PatientProfileImage
+        fields = ['id', 'image']
+
+
 class PatientSerializer(serializers.ModelSerializer):
+    profile_image = PatientProfileImageSerializer(many=True, read_only=True)
     user_id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Patient
-        fields = ['id', 'user_id', 'first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance']
+        fields = ['id', 'user_id', 'first_name', 'last_name', 'phone', 'registration_date', 'branch', 'package', 'current_balance', 'profile_image']
 
     current_balance = serializers.SerializerMethodField(method_name='get_balance')
 
@@ -111,10 +121,4 @@ class CreateAppointmentSerializer(serializers.ModelSerializer):
         fields = ['id', 'patient', 'dentist', 'start_time', 'end_time']
 
 
-class PatientProfileImageSerializer(serializers.ModelSerializer):
-    def create(self, validated_data):
-        patient_id = self.context['patient_id']
-        return PatientProfileImage.objects.create(patient_id=patient_id, **validated_data)
-    class Meta:
-        model = PatientProfileImage
-        fields = ['id', 'image']
+
