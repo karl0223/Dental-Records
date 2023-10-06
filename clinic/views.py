@@ -7,10 +7,10 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from clinic.filter import PatientFilter
-from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PaymentRecord, Procedure, Review
+from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, Patient, PatientProfileImage, PaymentRecord, Procedure, Review
 from clinic.pagination import DefaultPagination
 from clinic.permissions import IsAdminOrReadOnly, ViewPatientHistoryPermission
-from .serializers import AppointmentSerializer, BranchSerializer, CreateAppointmentSerializer, CreateDentalRecordSerializer, CreatePaymentRecordSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
+from .serializers import AppointmentSerializer, BranchSerializer, CreateAppointmentSerializer, CreateDentalRecordSerializer, CreatePaymentRecordSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientProfileImageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
 
 
 class PackageViewSet(ModelViewSet):
@@ -146,5 +146,14 @@ class AppointmentViewSet(ModelViewSet):
         if request.method == 'GET':
             serializer = AppointmentSerializer(appointment, many=True)
             return Response(serializer.data)
+        
+class PatientProfileImageViewSet(ModelViewSet):
+    serializer_class = PatientProfileImageSerializer
+
+    def get_serializer_context(self):
+        return {'patient_id': self.kwargs['patient_pk']}
+
+    def get_queryset(self):
+        return PatientProfileImage.objects.filter(patient_id=self.kwargs['patient_pk'])
 
 

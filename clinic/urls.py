@@ -15,4 +15,7 @@ router.register('appointments', views.AppointmentViewSet)
 branches_router = routers.NestedDefaultRouter(router, 'branches', lookup='branch') # parent router - parent prefix - lookup parameters (branch_pk)
 branches_router.register('reviews', views.ReviewViewSet, basename='branch-reviews') # branch-reviews-list / branch-reviews-detail
 
-urlpatterns = router.urls + branches_router.urls
+patient_router = routers.NestedDefaultRouter(router, 'patients', lookup='patient')
+patient_router.register('images', views.PatientProfileImageViewSet, basename='patient-images')
+
+urlpatterns = router.urls + branches_router.urls + patient_router.urls

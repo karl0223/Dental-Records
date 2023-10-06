@@ -56,4 +56,55 @@ class PatientProfileImage(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='profile_image')
     image = models.ImageField(upload_to='clinic/images')
 
+# Migrate
+- after creating the model, run makemigrations and migrate
+
+# -------------------------------------------------
+
+# BUILDING AN API TO UPLOAD IMAGES
+
+# SERIALIZERS
+- create a serializer
+- overwrite the create method to create a patient profile image with dynamic patient id provided in the url   #Note: CHECK VIEWS
+- get the patient id in the self.context
+- unpack the validated_data
+
+class PatientProfileImageSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        patient_id = self.context['patient_id']
+        return PatientProfileImage.objects.create(patient_id=patient_id, **validated_data)
+
+    class Meta:
+        model = PatientProfileImage
+        fields = ['id', 'image']
+
+# VIEWS
+- create a views
+
+- create a custom serializer context to get the dynamic patient id in the url        #/patient/1(patient_id)/images/
+- create a custom serializer context first before getting the self.context[field] in the serializer
+- {'patient_id': self.kwargs['patient_pk']}
+
+- create a custom queryset to get the specific patient image
+- self.kwargs['patient_pk']             --- Get the patient id in the route. Note: Nested route:  '/patient/1{patient_pk}/images/1{pk}'
+
+class PatientProfileImageViewSet(ModelViewSet):
+    serializer_class = PatientProfileImageSerializer
+
+    def get_serializer_context(self):
+        return {'patient_id': self.kwargs['patient_pk']}
+
+    def get_queryset(self):
+        return PatientProfileImage.objects.filter(patient_id=self.kwargs['patient_pk'])
+
+# URLS
+- register the url
+- add a basename if the queryset is overwritten
+- add the patient_router.urls in the urlpatterns
+
+patient_router = routers.NestedDefaultRouter(router, 'patients', lookup='patient')
+patient_router.register('images', views.PatientProfileImageViewSet, basename='patient-images')
+
+urlpatterns = router.urls + branches_router.urls + patient_router.urls
+
 # -------------------------------------------------
