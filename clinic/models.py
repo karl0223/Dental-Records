@@ -3,6 +3,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.db.models.aggregates import Sum
 
+from clinic.validators import validate_file_size
+
 # Create your models here.
 
 class Branch(models.Model):
@@ -77,7 +79,7 @@ class Patient(models.Model):
 
 class PatientProfileImage(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='profile_image')
-    image = models.ImageField(upload_to='clinic/images')
+    image = models.ImageField(upload_to='clinic/images', validators=[validate_file_size])
    
 class Dentist(models.Model):
     GENERAL_DENTIST = 'GD'

@@ -130,3 +130,39 @@ queryset = Patient.objects.prefetch_related('profile_image', 'user').all()
 (patient, created) = Patient.objects.prefetch_related('profile_image', 'user').get_or_create(user_id=request.user.id)
 
 # -------------------------------------------------
+
+# VALIDATING UPLOADED FILES
+- lesson 8
+- create a validators.py file
+
+# Validators.py
+- import the Validation Error
+- create a validation function 
+
+from django.core.exceptions import ValidationError
+
+def validate_file_size(file):
+    max_size_kb = 50
+
+    if file.size > max_size_kb * 1024:
+        raise ValidationError(f'Files cannot be larget than {max_size_kb}KB!')
+
+# MODELS
+- In PatientProfileImage add a validators in the image field
+
+class PatientProfileImage(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='profile_image')
+    image = models.ImageField(upload_to='clinic/images', validators=[validate_file_size])
+
+# VALIDATE THE FILE EXTENSION
+- Pillow will automatically validate the uploaded image extension
+- Useful when restricting File format e.g document, pdf, etc
+- import FileExtensionValidator
+
+from django.core.validators import FileExtensionValidator
+
+class PatientProfileImage(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='profile_image')
+    file = models.FileField(upload_to='clinic/images', validators=[FileExtensionValidator(allowed_extensions=['pdf])])
+
+# -------------------------------------------------
