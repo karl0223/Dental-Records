@@ -344,3 +344,28 @@ def say_hello(request):
     return render(request, 'hello.html', { 'name' : 'Karl'})
 
 # -------------------------------------------------
+
+# SENDING TEMPLATED EMAILS
+
+- pipenv install django-templated-mail
+
+- create email folder and html template file in the template folder
+
+- Use BaseEmailMessage to create the email
+
+# CODE
+
+from templated_mail.mail import BaseEmailMessage
+
+def say_hello(request):
+    try:
+        message = BaseEmailMessage(
+            template_name='emails/hello.html',              # Path of the template
+            context={'name': 'Karl'}                        # Variables
+        )
+        message.send(['karl@from.com'])                     # List of recipients
+    except BadHeaderError:
+        pass
+    return render(request, 'hello.html', { 'name' : 'Karl'})
+
+# -------------------------------------------------
