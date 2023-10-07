@@ -318,3 +318,29 @@ ADMINS = [
 ]
 
 # -------------------------------------------------
+
+# ATTACHING FILES IN EMAILS
+
+# Note: If you want control over the emails sent like attaching file, bcc or cc features, Use 'EmailMessage' instead send_mail
+
+- import EmailMessage
+- create a static and images folder in playground 
+- static -> images -> dog.jpg
+
+- message = EmailMessage('subject', 'message', 'email', ['list of recipients'])              # Parameters
+- message.attach_file(path of the image)
+- send the email
+
+from django.core.mail import EmailMessage, BadHeaderError
+
+def say_hello(request):
+    try:
+        message = EmailMessage('subject', 'message', 'from@karl.com', ['from@bob.com'])
+        message.attach_file('playground/static/images/dog.jpg')
+        message.send()
+
+    except BadHeaderError:
+        pass
+    return render(request, 'hello.html', { 'name' : 'Karl'})
+
+# -------------------------------------------------
