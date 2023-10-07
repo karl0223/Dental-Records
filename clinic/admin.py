@@ -1,4 +1,5 @@
 from typing import Any
+from django.utils.html import format_html
 from django.contrib import admin, messages
 from django.db.models.query import QuerySet
 from . import models
@@ -32,12 +33,22 @@ class PackageAdmin(admin.ModelAdmin):
         self.message_user(request, f'{updated_price} package were successfully updated.', messages.ERROR)
 
 
+class PatientImageInline(admin.TabularInline):
+    model = models.PatientProfileImage
+    readonly_fields = ['thumbnail']
+
+    def thumbnail(self, instance):
+        if instance.image.name != "":
+            return format_html(f'<img src="{instance.image.url}" class="thumbnail"/>')
+        return ''
+
 @admin.register(models.Patient)
 class PatientAdmin(admin.ModelAdmin):
     readonly_fields = ['balance']
     autocomplete_fields = ['branch', 'package', 'user']
     list_display = ['user_id', 'first_name', 'last_name', 'phone', 'branch_name', 'package_type', 'balance']
     # list_editable = ['branch_name']
+    inlines = [PatientImageInline]
     ordering = ['user__first_name', 'user__last_name']
     list_per_page = 10
     list_select_related = ['branch', 'package', 'user']
@@ -47,7 +58,14 @@ class PatientAdmin(admin.ModelAdmin):
         return patient.branch.name
     
     def package_type(self, patient):
-        return patient.package.title
+        if patient.package:
+            return patient.package.title
+        return None
+    
+    class Media:
+        css = {
+            'all': ['clinic/styles.css']
+        }
     
 @admin.register(models.Dentist)
 class DentistAdmin(admin.ModelAdmin):
