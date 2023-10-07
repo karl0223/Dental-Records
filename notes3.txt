@@ -261,3 +261,16 @@ class PatientAdmin(admin.ModelAdmin):
 - localhost:3000
 
 # -------------------------------------------------
+
+# CONFIGURING THE EMAIL BACKEND
+
+# Settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = ''                    # leave empty if production. Use .env when production
+EMAIL_HOST_PASSWORD = ''                # leave empty if production. Use .env when production
+EMAIL_PORT = 2525                       # default smtp port is 25, the fake is 2525
+DEFAULT_FROM_EMAIL = 'from@karl.com'
+
+# -------------------------------------------------
