@@ -274,3 +274,47 @@ EMAIL_PORT = 2525                       # default smtp port is 25, the fake is 2
 DEFAULT_FROM_EMAIL = 'from@karl.com'
 
 # -------------------------------------------------
+
+# SENDING EMAILS
+
+- lesson 15
+- import send_mail, mail_admins, BadHeaderError
+- Use try catch to use the BadHeaderError. It is a security measure to modified email attacks
+- send_mail('subject', 'message', 'email', ['list of recipients'])                  # Parameters of the send_mail
+- the email parameter can be overwritten, the default email is in the settings      --- DEFAULT_FROM_EMAIL = 'from@karl.com'
+
+- go to the playground route to test the email
+- http://127.0.0.1:8000/playground/hello/
+
+- check the smtp4dev admin panel to check the email
+
+
+from django.core.mail import send_mail, mail_admins, BadHeaderError
+
+def say_hello(request):
+    try:
+        send_mail('subject', 'message', 'from@karl.com', ['from@bob.com'])
+    except BadHeaderError:
+        pass
+    return render(request, 'hello.html', { 'name' : 'Karl'})
+
+# SENDING EMAILS TO SITE ADMINS
+
+- same implementation but use mail_admins
+- mail_admins('subject', 'message', html_message="message")
+
+def say_hello(request):
+    try:
+        mail_admins('subject', 'message', 'from@karl.com', ['from@bob.com'])
+    except BadHeaderError:
+        pass
+    return render(request, 'hello.html', { 'name' : 'Karl'})
+
+
+# In settings (sending email to site admin only)
+
+ADMINS = [
+    ('Karl', 'from@karl.com')   # Tuple --- FORMAT -- (Name : Email)
+]
+
+# -------------------------------------------------
