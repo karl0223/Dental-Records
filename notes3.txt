@@ -247,3 +247,17 @@ class PatientAdmin(admin.ModelAdmin):
 - static/clinic/styles.css --  PATH
 
 # -------------------------------------------------
+
+# SETTING UP A FAKE SMTP SERVER
+
+- documentation of smtp4dev
+- https://github.com/rnwood/smtp4dev
+- go to installation page
+- run the docker code.
+- Note: Download the docker before running the code
+- docker run --rm -it -p 3000:80 -p 2525:25 rnwood/smtp4dev
+
+# SMTP4DEV ADMIN PANEL
+- localhost:3000
+
+# -------------------------------------------------
