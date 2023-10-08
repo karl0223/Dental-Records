@@ -580,3 +580,16 @@ Admin & Invalid data -> 400
 admin & valid data -> 200
 
 # -------------------------------------------------
+
+# TEST FRAMEWORK
+
+- unittest
+- pytest        # more features, tons of plugins, less boilerplate
+
+# INSTALLING PYTEST
+
+- pipenv install --dev pytest               # only dev dependencies
+- pipenv install --dev pytest-django        # pytest for django
+
+# -------------------------------------------------
+
