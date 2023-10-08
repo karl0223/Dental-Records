@@ -412,5 +412,68 @@ def say_hello(request):
 
 - lesson 21
 
-- docker run -d -p 6389:6379 redis
+- docker run -d -p 6379:6379 redis
 - pipenv install redis
+
+# -------------------------------------------------
+
+# INSTALLING CELERY IN WINDOWS
+
+- Check this out
+- https://stackoverflow.com/questions/37255548/how-to-run-celery-on-windows
+
+- Install WSL
+- pipenv install gevent
+- celery -A <module> worker -l info -P gevent
+
+# -------------------------------------------------
+
+# SETTING UP CELERY
+
+- lesson 23
+
+- pipenv install celery
+
+# In the Main app         -- Dental Clinic
+
+- create celery.py
+
+# In celery.py
+
+- import os and celery
+- setdefault
+- create celery instance
+- setup config from object and autodiscover_tasks
+
+import os
+from celery import Celery
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dentalclinic.settings')         # django module environment variable - path of the settings
+
+celery = Celery('dentalclinic')
+celery.config_from_object('django.conf:settings', namespace='CELERY')               # go to django conf and load the settings
+celery.autodiscover_tasks()
+
+
+# In settings.py
+- add the celery broker url and use the redis       # use the port of the redis
+- redis://localhost:6379/1                          # redis://localhost/port/database
+
+CELERY_BROKER_URL = 'redis://localhost:6379/1'
+
+# In __init__ of dental clinic
+- import celery from celery.py
+
+from .celery import celery
+
+
+# Run the celery command
+
+- celery -A <module> worker -l info -P gevent
+
+- <module> - Main App --- dentalclinic
+
+- celery -A dentalclinic worker -l info -P gevent
+
+# -------------------------------------------------
+
