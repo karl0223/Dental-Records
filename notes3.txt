@@ -593,3 +593,45 @@ admin & valid data -> 200
 
 # -------------------------------------------------
 
+# WRITING TEST CASES
+
+- lesson 31
+
+- create 'tests' folder in the app. Make sure the folder name is 'tests'
+- create a test file. Make sure the test file name starts with 'test_'      e.g 'test_patients.py'
+
+# CREATING TEST CASES
+
+        # (A, A, A)     --- Arrange, Act, Assert                    # Triple A
+
+        # Arrange
+        - prepare the system under test
+        - create objects, prepare database, initial state, etc
+
+        # Act
+        - behavior of the test
+        - send request to the server
+
+        # Assert
+        - expect if the behavior happens or not
+
+# test_packages.py
+
+- import the APIClient and status
+
+from rest_framework.test import APIClient
+from rest_framework import status
+
+class TestCreatePackage:                                            # Must start the class name with 'Test' if not pytest will not pick it up
+    def test_if_user_is_anonymous_returns_401(self):                # Function must starts with 'test_'. Make it descriptive
+        # Arrange 
+                - None
+
+        # Act
+        client = APIClient()
+        response = client.post('/clinic/packages/', {'title': 'a', 'package_type': 'A', 'price': 20000})
+
+        # Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+# -------------------------------------------------
