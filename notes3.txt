@@ -477,3 +477,38 @@ from .celery import celery
 
 # -------------------------------------------------
 
+# CREATING AND EXECUTING TASKS
+
+- create tasks.py   # Create tasks.py in any app e.g playground
+
+# Simulating simple task
+- import sleep
+- import shared_task in celery to avoid dependencies
+
+from time import sleep
+from celery import shared_task
+
+@shared_task
+def notify_customer(message):
+    print('Sending 10k emails...')
+    print(message)
+    sleep(10)
+    print('Emails were successfully sent!')
+
+# In Views
+- import the notify_customer from tasks
+- use .delay
+
+from django.shortcuts import render
+from .tasks import notify_customer
+
+def say_hello(request):
+    notify_customer.delay('Hello')
+   
+    return render(request, 'hello.html', { 'name' : 'Karl'})
+
+# Note:
+- If you added a new task, re run the celery to load the new tasks/changes
+- celery -A dentalclinic worker -l info -P gevent
+
+# -------------------------------------------------

@@ -1,15 +1,8 @@
-from django.core.mail import send_mail, mail_admins, EmailMessage ,BadHeaderError
 from django.shortcuts import render
-from templated_mail.mail import BaseEmailMessage
+from .tasks import notify_customer
 # Create your views here.
 
 def say_hello(request):
-    try:
-        message = BaseEmailMessage(
-            template_name='emails/hello.html',
-            context={'name': 'Karl'}
-        )
-        message.send(['karl@from.com'])
-    except BadHeaderError:
-        pass
+    notify_customer.delay('Hello')
+   
     return render(request, 'hello.html', { 'name' : 'Karl'})
