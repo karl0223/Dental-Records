@@ -547,3 +547,18 @@ CELERY_BEAT_SCHEDULE = {
 - celery -A dentalclinic beat
 
 # -------------------------------------------------
+
+# MONITORING CELERY TASKS
+
+- pipenv install flower
+
+# RUN THE CODE
+
+- celery -A <module> flower
+- celery -A dentalclinic flower
+
+# ACCESS THE FLOWER PANEL
+
+- Go to localhost:5555
+
+# -------------------------------------------------
