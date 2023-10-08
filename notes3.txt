@@ -512,3 +512,38 @@ def say_hello(request):
 - celery -A dentalclinic worker -l info -P gevent
 
 # -------------------------------------------------
+
+# SCHEDULING PERIODIC TASKS
+
+- lesson 25
+
+- Generating periodic reports
+- Sending emails
+- Running maintenance jobs
+
+# CELERY BEAT
+
+- task scheduler
+- acts as a manager
+
+# SETTING UP CELERY BEAT
+
+- In settings.py
+- add celery beat schedule
+- import crontab from celery.schedule
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'notify_customers': {                                                      # Name of the task. Use the function name for consistency
+        'task': 'playground.tasks.notify_customers',                           # Path of the tasks
+        'schedule': crontab(day_of_week=1, hour=7, minute=30),                 # Use crontab to set schedule
+        'args': ['Hello World!'],                                              # any args/kwargs needed       | 'kwargs': {}
+    }
+}
+
+# RUN THE CELERY BEAT
+- celery -A <module> beat
+- celery -A dentalclinic beat
+
+# -------------------------------------------------
