@@ -407,3 +407,10 @@ def say_hello(request):
 - RabbitMQ          # Real, Enterprise-grade broker
 
 # -------------------------------------------------
+
+# INSTALLING REDIS
+
+- lesson 21
+
+- docker run -d -p 6389:6379 redis
+- pipenv install redis
