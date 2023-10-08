@@ -562,3 +562,21 @@ CELERY_BEAT_SCHEDULE = {
 - Go to localhost:5555
 
 # -------------------------------------------------
+
+# AUTOMATED TESTING
+
+- Test the behaviors, Not the implementation
+
+# Sample Scenario
+
+- create a patient
+POST / patient
+
+# Scenarios
+
+anonymous -> 401
+Non-admin -> 403
+Admin & Invalid data -> 400
+admin & valid data -> 200
+
+# -------------------------------------------------
