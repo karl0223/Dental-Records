@@ -369,3 +369,41 @@ def say_hello(request):
     return render(request, 'hello.html', { 'name' : 'Karl'})
 
 # -------------------------------------------------
+
+# LONG RUNNING TASKS
+
+- lesson 19
+
+- Processing images and videos
+- Generating Reports
+- Sending emails
+- Running machine learning models
+
+# INTRODUCTION TO CELERY
+
+- start several workers to execute background tasks (long running tasks)
+- execute tasks in parallel
+- easily scale application by adding more workers
+- workers dont impact the main application process. 
+- e.g If one of the workers fails, the application process is not affected and it can continue serving clients
+- schedule periodic tasks
+- communicate with server with queue
+
+# -------------------------------------------------
+
+# MESSAGE BROKER
+
+- Broker = Middleman
+- If App-A wants to send a message to App-B, it uses the Message Broker
+- If the target application is not available, the broker will keep the message and retry later
+- It will guarantee the deliver of messages from A to B
+- If the Message Broker becomes unavailable. You can setup a cluster of Message Broker for backup
+
+- 'We use message broker to reliably deliver messages between apps'
+
+# Types of Message Broker
+
+- Redis             # Not real Messsage Broker but a in-memory data store --- can be used as a database, cache, or message broker
+- RabbitMQ          # Real, Enterprise-grade broker
+
+# -------------------------------------------------
