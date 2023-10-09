@@ -674,3 +674,14 @@ DJANGO_SETTINGS_MODULE = dentalclinic.settings
 - pytest -k anonymous       # run test with a name pattern 'anonymous'
 
 # -------------------------------------------------
+
+# SKIPPING TEST
+
+- temporarily skip the test cases
+- add a skip decorator above the test case function
+
+@pytest.mark.skip
+def test_if_user_is_anonymous_returns_401(self):
+    ...
+
+# -------------------------------------------------
