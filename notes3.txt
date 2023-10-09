@@ -635,3 +635,42 @@ class TestCreatePackage:                                            # Must start
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 # -------------------------------------------------
+
+# RUN TEST CASES
+
+-lesson 32
+
+- create 'pytest.ini' in the root folder            # Config file
+- run 'pytest' in the terminal
+
+# If encounters an error
+- RuntimeError: Database access not allowed, use the "django_db" mark, or the "db" or "transactional_db" fixtures to enable it.
+- mark the class test with '@pytest.mark.django_db' decorator
+- import pytest
+
+import pytest
+
+@pytest.mark.django_db
+class TestCreatePackage:
+    def test_if_user_is_anonymous_returns_401(self):
+        client = APIClient()
+        response = client.post('/clinic/packages/', {'title': 'a', 'package_type': 'A', 'price': 20000})
+
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+# Code in pytest.ini
+
+[pytest]
+DJANGO_SETTINGS_MODULE = dentalclinic.settings
+
+# To TEST SPECIFIC DIRECTORY/FILE
+
+- pytest clinic/tests/                                          # test all the test case files inside the tests folder
+- pytest clinic/tests/test_collection.py                        # test all the class test cases inside the test_collection.py
+- pytest clinic/tests/test_collection.py::TestCreatePackage     # test specific class test cases inside the test_collection.py
+- pytest clinic/tests/test_collection.py::TestCreatePackage::test_if_user_is_anonymous_returns_401     # test specific function
+
+- pytest -k                 # specify a pattern. k-option
+- pytest -k anonymous       # run test with a name pattern 'anonymous'
+
+# -------------------------------------------------
