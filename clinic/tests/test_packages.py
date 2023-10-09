@@ -1,5 +1,9 @@
 from rest_framework import status
 import pytest
+from model_bakery import baker
+
+from clinic.models import Package
+from clinic.serializers import PackageSerializer
 
 @pytest.fixture
 def create_package(api_client):
@@ -16,7 +20,7 @@ class TestCreatePackage:
 
     def test_if_user_is_not_admin_returns_403(self, authenticate, create_package):
         authenticate()
-            
+
         response = create_package({'title': 'a', 'package_type': 'A', 'price': 20000})
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
@@ -37,3 +41,14 @@ class TestCreatePackage:
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data['id'] > 0
 
+@pytest.mark.django_db
+class TestRetrievePackage:
+    def test_if_collection_exists_returns_200(self, api_client):
+        package = baker.make(Package)
+
+        serializer = PackageSerializer(package)
+    
+        response = api_client.get(f'/clinic/packages/{package.id}/')
+
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == serializer.data

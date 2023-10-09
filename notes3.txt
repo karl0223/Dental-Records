@@ -828,3 +828,60 @@ def test_if_user_is_not_admin_returns_403(self):
 
 # -------------------------------------------------
 
+# CREATING MODEL INSTANCES TEST CASE
+
+- lesson 39
+
+- pipenv install --dev model_bakery
+
+# model_bakery
+    - can easily create objects         # e.g Package Model
+    - create dummy data of the model
+
+# RETRIEVE THE DATA          --- NO CUSTOM FIELD/SERIALIZER
+
+    @pytest.mark.django_db
+    class TestRetrievePackage:
+        def test_if_collection_exists_returns_200(self, api_client):
+            package = baker.make(Package)
+        
+            response = api_client.get(f'/clinic/packages/{package.id}/')
+
+            assert response.status_code == status.HTTP_200_OK
+            assert response.data == {
+                'id': package.id,
+                'title': package.title
+            }
+
+
+# CREATE TEST CASES OF THE MODEL WITH CUSTOM SERIALIZER
+    - the package model has no price_with_discount field
+    - the package model has a custom price_with_discount field in the serializer
+    - test and compare the retrieved data to the serializer data
+
+    - import the model and serializer
+    - create the package with baker.make()
+    - create serializer based on the package
+    - get the data
+    - compare the data
+
+    from clinic.models import Package
+    from clinic.serializers import PackageSerializer
+
+    @pytest.mark.django_db
+    class TestRetrievePackage:
+        def test_if_collection_exists_returns_200(self, api_client):
+
+            # Arrange
+            package = baker.make(Package)
+
+            serializer = PackageSerializer(package)
+        
+            # Act
+            response = api_client.get(f'/clinic/packages/{package.id}/')
+
+            # Assert
+            assert response.status_code == status.HTTP_200_OK
+            assert response.data == serializer.data
+
+# -------------------------------------------------
