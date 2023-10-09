@@ -685,3 +685,16 @@ def test_if_user_is_anonymous_returns_401(self):
     ...
 
 # -------------------------------------------------
+
+# CONTINUOUS TESTING
+
+- pipenv install --dev pytest-watch
+
+# Run code
+
+- ptw           # pytest watch
+
+
+Note: Always test before commiting in github
+
+# -------------------------------------------------
