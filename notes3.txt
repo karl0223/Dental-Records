@@ -715,4 +715,46 @@ def test_if_user_is_not_admin_returns_403(self):
 
 # -------------------------------------------------
 
+# SINGLE OR MULTIPLE ASSERTIONS
 
+# Note:
+- Test cases should have single assertion/responsibility
+- Use multiple assertions if logically related
+
+# Scenario
+    - The user is authenticated and an admin but the data sent is invalid
+    - The user is authenticated and an admin and the data is valid
+
+# Code
+
+- import the user to create a dummy staff user
+- client.force_authenticate(user=User(is_staff=True))           # Set the is_staff in User to 'True'
+
+- from django.contrib.auth.models import User
+
+# Scenario 1
+    - The user is authenticated and an admin but the data is invalid
+    - Multiple assertions (logically related)
+    - The title in the response data is Empty/None and returns 400
+
+    def test_if_data_is_invalid_returns_400(self):
+            client = APIClient()
+            client.force_authenticate(user=User(is_staff=True))
+            response = client.post('/clinic/packages/', {'title': '', 'package_type': 'A', 'price': 20000})
+
+            assert response.status_code == status.HTTP_400_BAD_REQUEST
+            assert response.data['title'] is not None
+
+# Scenario 2
+    - The user is authenticated and an admin and the data is valid
+    - The created package has an id greater than 0 and returns 201
+
+    def test_if_data_is_valid_returns_201(self):
+        client = APIClient()
+        client.force_authenticate(user=User(is_staff=True))
+        response = client.post('/clinic/packages/', {'title': 'a', 'package_type': 'A', 'price': 20000})
+
+        assert response.status_code == status.HTTP_201_CREATED
+        assert response.data['id'] > 0
+
+# -------------------------------------------------
