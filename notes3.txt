@@ -758,3 +758,73 @@ def test_if_user_is_not_admin_returns_403(self):
         assert response.data['id'] > 0
 
 # -------------------------------------------------
+
+# FIXTURES
+
+- lesson 38
+
+- removes duplication in the test code
+- e.g client = APIClient()                  # remove
+
+- create 'conftest.py'
+
+# In conftest.py            # GLOBAL FIXTURE
+    - initialize the APIClient to all test cases        
+    - add api_client (name of the function) to the parameters of the test cases. No need to create multiple client
+    - def test_if_user_is_anonymous_returns_401(self, api_client):
+        ...
+
+     - create a global authentication fixture
+
+
+    from rest_framework.test import APIClient
+    import pytest
+
+    @pytest.fixture
+    def api_client():
+        return APIClient()
+
+    @pytest.fixture
+    def authenticate(api_client):
+        def do_authenticate(is_staff=False):
+            return api_client.force_authenticate(user=User(is_staff=is_staff))
+        return do_authenticate
+
+
+# CREATING FIXTURE SPECIFIC TO THE MODEL      --- CREATING NEW PACKAGE
+    - The concept of this is 'closure' in javascript
+    - remove the duplication of creating a post request in the route
+    - giving dynamic data in the request
+
+    @pytest.fixture
+    def create_package(api_client):
+        def do_create_package(package):
+            return api_client.post('/clinic/packages/', package)
+        return do_create_package
+
+    # WITH GLOBAL API CLIENT FIXTURE
+
+    def test_if_user_is_anonymous_returns_401(self, api_client, create_package):
+            response = create_package({'title': 'a', 'package_type': 'A', 'price': 20000})      # New implementation
+
+            assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    # WITH GLOBAL AUTHENTICATION FIXTURE
+
+    def test_if_user_is_not_admin_returns_403(self, authenticate, create_package):
+        authenticate()
+            
+        response = create_package({'title': 'a', 'package_type': 'A', 'price': 20000})
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_if_data_is_invalid_returns_400(self, authenticate, create_package):
+        authenticate(is_staff=True)
+
+        response = create_package({'title': '', 'package_type': 'A', 'price': 20000})
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.data['title'] is not None
+
+# -------------------------------------------------
+
