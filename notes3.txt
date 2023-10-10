@@ -885,3 +885,40 @@ def test_if_user_is_not_admin_returns_403(self):
             assert response.data == serializer.data
 
 # -------------------------------------------------
+
+# PERFORMANCE TESTING
+
+# INSTALLING LOCUST
+- pipenv install --dev locust
+
+# WRITING TEST SCRIPT
+
+- lesson 43
+
+- create a folder in root       e.g 'locustfiles'
+- create a use case test        e.g 'browse_packages.py'    - browsing the packages
+
+
+# TEST SCRIPT
+
+- import HttpUser, task, between
+- HttpUser      -- create user instance
+- task          -- priority of the task to execute
+- between       -- run the task randomly between a specified time   e.g (1, 5) between one to five seconds
+
+from locust import HttpUser, task, between
+from random import randint
+
+class WebsiteUser(HttpUser):
+    wait_time = between(1, 5)                       # set wait_time between 1 to 5 seconds to execute
+
+    @task(2)
+    def view_packages(self):
+        self.client.get('/clinic/packages/', name='/clinic/packages')
+
+    @task(4)
+    def view_package(self):
+        package_id = randint(1, 10)
+        self.client.get('/clinic/packages/{package_id}', name='/clinic/packages/:id')
+
+# -------------------------------------------------
