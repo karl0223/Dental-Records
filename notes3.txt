@@ -919,6 +919,14 @@ class WebsiteUser(HttpUser):
     @task(4)
     def view_package(self):
         package_id = randint(1, 10)
-        self.client.get('/clinic/packages/{package_id}', name='/clinic/packages/:id')
+        self.client.get(f'/clinic/packages/{package_id}', name='/clinic/packages/:id')
+
+# -------------------------------------------------
+
+# RUN THE TEST SCRIPT
+
+- locust -f <file_path>
+- locust -f locustfiles/browse_packages.py
+- http://localhost:8089/
 
 # -------------------------------------------------
