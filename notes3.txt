@@ -960,3 +960,39 @@ class WebsiteUser(HttpUser):
     - upgrade the server
 
 # -------------------------------------------------
+
+# PROFILING WITH SILK
+
+- lesson 47
+
+- pipenv install --dev django-silk
+
+- add silk in the middleware
+- add silk in the installed apps
+- register url pattern
+- run migrate
+
+
+MIDDLEWARE = [
+    ...
+    'silk.middleware.SilkyMiddleware',
+    ...
+]
+
+if DEBUG:               # BETTER IMPLEMENTATION TO LIMIT ONLY TO DEBUG MODE
+    MIDDLEWARE += ['silk.middleware.SilkyMiddleware']
+
+INSTALLED_APPS = (
+    ...
+    'silk'
+)
+
+urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
+
+- python manage.py migrate
+
+# ACCESS SILK
+
+- http://localhost:8000/silk/
+
+# -------------------------------------------------
