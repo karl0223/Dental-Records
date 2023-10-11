@@ -930,3 +930,33 @@ class WebsiteUser(HttpUser):
 - http://localhost:8089/
 
 # -------------------------------------------------
+
+# RUNNING A PERFORMANCE TEST
+
+- comment out the debug tool bar in the settings middleware before running a performance test
+
+# OPTIMIZATION TECHNIQUES
+
+- lesson 46
+- Note: Optimize the critical parts
+
+1. Optimize python code
+    - pre-load related objects
+    - load only what you need
+    - use values
+    - count properly
+    - bulk create / update
+
+2. Re-write the query
+    - write sql queries
+
+3. Tune the database
+    - re-designing the database
+
+4. Cache the result
+    - store the result in the memory
+
+5. Buy more hardware
+    - upgrade the server
+
+# -------------------------------------------------
