@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     #/playground/hello/ - url
-    path('hello/', views.say_hello) # always add '/' at the end
+    path('hello/', views.HelloView.as_view()) # always add '/' at the end
 ]

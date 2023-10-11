@@ -1044,3 +1044,43 @@ CACHES = {
 - lesson 57
 
 # -------------------------------------------------
+
+# CACHING VIEWS
+   - better implementation than using low level caching api
+
+# FUNCTION BASED VIEWS
+    - import cache_page, request
+
+    from django.views.decorators.cache import cache_page
+    import requests
+
+    @cache_page(5 * 60)             #   5 mins
+    def say_hello(request):
+        response = requests.get('https://httpbin.org/delay/2')
+        data = response.json()
+        return render(request, 'hello.html', { 'name' : data})
+
+
+# CLASS BASED VIEWS
+    - import APIView, method_decorator
+    - wrap the function with '@method_decorator and cache_page'
+
+    from django.utils.decorators import method_decorator
+    from rest_framework.views import APIView
+
+    class HelloView(APIView):
+    @method_decorator(cache_page(5 * 60))
+    def get(self, request):
+        response = requests.get('https://httpbin.org/delay/2')
+        data = response.json()
+        return render(request, 'hello.html', { 'name' : data})
+
+    # urls.py
+        - change to 'views.HelloView.as_view()'
+
+    urlpatterns = [
+        #/playground/hello/ - url
+        path('hello/', views.HelloView.as_view()) 
+    ]
+
+# -------------------------------------------------
