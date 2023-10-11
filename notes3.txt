@@ -1016,3 +1016,31 @@ urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
 - File system
 
 # -------------------------------------------------
+
+# CONFIGURE REDIS CACHING
+
+- lesson 54 - 56
+
+- make sure the redis in docker is running          # docker run -d -p 6379:6379 redis
+- pipenv install django-redis
+- go to django-redis documentation                  # jazzband
+- copy and paste the cache settings
+- change the location "LOCATION": "redis://localhost:6379/2", /2 - means the database
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+# -------------------------------------------------
+
+# USING THE lOW LEVEL CACHE API
+
+- lesson 57
+
+# -------------------------------------------------
