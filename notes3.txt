@@ -996,3 +996,23 @@ urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
 - http://localhost:8000/silk/
 
 # -------------------------------------------------
+
+# CACHING
+
+#Problem
+    - cannot use if the data keeps updating
+    - the data in the cache will not be updated if some changes happens in the database
+    - the data will become stale/out of date until the cache expires
+    - can use celery to update cache every now and then
+
+# -------------------------------------------------
+
+# CACHE BACKENDS
+
+- local memory (default)
+- Memcached
+- Redis
+- Database
+- File system
+
+# -------------------------------------------------
