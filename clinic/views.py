@@ -11,12 +11,24 @@ from clinic.models import Appointment, Branch, DentalRecord, Dentist, Package, P
 from clinic.pagination import DefaultPagination
 from clinic.permissions import IsAdminOrReadOnly, ViewPatientHistoryPermission
 from .serializers import AppointmentSerializer, BranchSerializer, CreateAppointmentSerializer, CreateDentalRecordSerializer, CreatePaymentRecordSerializer, DentalRecordSerializer, DentistSerializer, PackageSerializer, PatientProfileImageSerializer, PatientSerializer, PaymentRecordSerializer, ProcedureSerializer, ReviewSerializer
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+import time
 
 class PackageViewSet(ModelViewSet):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
     permission_classes = [IsAdminOrReadOnly]
+
+    @method_decorator(cache_page(60 * 15))  # Cache the response for 15 minutes (adjust the timeout as needed)
+    def list(self, request, *args, **kwargs):
+        time.sleep(5)
+        return super().list(request, *args, **kwargs)
+
+    @method_decorator(cache_page(60 * 15))  # Cache the response for 15 minutes (adjust the timeout as needed)
+    def retrieve(self, request, *args, **kwargs):
+        time.sleep(5)
+        return super().retrieve(request, *args, **kwargs)
     
     def get_serializer_context(self):
         return {'request': self.request}
