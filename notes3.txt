@@ -1135,3 +1135,42 @@ CACHES = {
     - path('', include('core.urls')),
 
 # -------------------------------------------------
+
+# MANAGING STATIC ASSETS
+
+- lesson 63
+
+# -------------------------------------------------
+
+# COLLECTING STATIC ASSETS
+
+- lesson 64
+
+# Get the static root
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Run the command
+    - python manage.py collectstatic
+    - every time you deploy run the command to collect all the static apps      # Only in production
+
+# -------------------------------------------------
+
+# SERVING STATIC ASSETS
+
+- lesson 65
+- django cannot serve static files
+
+# Install white noise
+    - pipenv install whitenoise
+
+# Middleware
+    - add the white noise middleware
+    - it should be added as high as possible but below the security middleware
+
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+    ]
+
+# -------------------------------------------------
