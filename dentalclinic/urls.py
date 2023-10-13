@@ -22,6 +22,7 @@ from django.urls import path, include
 import debug_toolbar #Import debug toolbar
 
 urlpatterns = [
+    path('', include('core.urls')),
     path('admin/', admin.site.urls),
     path('playground/', include('playground.urls')), # /playground/
     path('clinic/', include('clinic.urls')), # /clinic/

@@ -1106,3 +1106,32 @@ CACHES = {
         return super().retrieve(request, *args, **kwargs)
 
 # -------------------------------------------------
+
+# ADDING HOME PAGE
+
+- lesson 62
+
+# Core Folder
+    - create urls.py in 'core' folder
+    - create templates -> core -> index.html
+    - design the html
+
+# Urls.py
+    - Use TemplateView to create a template
+    - set the template_name to the path of the home page
+
+
+    from django.views.generic import TemplateView
+    from django.urls import path
+    from . import views
+
+    urlpatterns = [
+        #/playground/hello/ - url
+        path('', TemplateView.as_view(template_name='core/index.html'))
+    ]
+
+# Main App (dental clinic)
+    - Add the path of the home page in urls.py
+    - path('', include('core.urls')),
+
+# -------------------------------------------------
