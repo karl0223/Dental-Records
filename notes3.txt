@@ -1190,23 +1190,47 @@ LOGGING = {
         },
         'file': {
             'class': 'logging.FileHandler',
-            'filename': 'general.log'   
+            'filename': 'general.log',
+            'formatter': 'verbose'
         }
     },
     'loggers': {
-        'playground': {
-            '': {
-                'handlers': ['console', 'file'],
-                'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
-            }
+        '': {
+            'handlers': ['console', 'file'],
+            'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
         }
     },
     'formatters': {
         'verbose': {
             'format': '{asctime} ({levelname}) - {name} - {message}',
-            'style': '{'
+            'style': '{' 
         }
-    } 
+    }
 }
+
+# -------------------------------------------------
+
+# LOGGING
+
+- lesson 67
+- import logging
+- create a try catch block to handle the logger
+
+# Implementation
+
+import logging
+
+logger = logging.getLogger(__name__)     # playground.views
+
+class HelloView(APIView):
+    def get(self, request):
+        try:
+            logger.info('Calling httpbin')
+            response = requests.get('https://httpbin.org/delay/2')
+            logger.info('Received Response')
+            data = response.json()
+        except requests.ConnectionError:
+            logger.critical('Httpbin is offline')
+        return render(request, 'hello.html', { 'name' : data})
 
 # -------------------------------------------------

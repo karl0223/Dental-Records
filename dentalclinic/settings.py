@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -218,21 +218,20 @@ LOGGING = {
         },
         'file': {
             'class': 'logging.FileHandler',
-            'filename': 'general.log'   
+            'filename': 'general.log',
+            'formatter': 'verbose'
         }
     },
     'loggers': {
-        'playground': {
-            '': {
-                'handlers': ['console', 'file'],
-                'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
-            }
+        '': {
+            'handlers': ['console', 'file'],
+            'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
         }
     },
     'formatters': {
         'verbose': {
             'format': '{asctime} ({levelname}) - {name} - {message}',
-            'style': '{'
+            'style': '{' 
         }
-    } 
+    }
 }
